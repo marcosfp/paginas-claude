@@ -140,6 +140,40 @@ a.block:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .leaflet-popup-content{font:400 14px/1.4 Figtree,system-ui,sans-serif;margin:10px 14px}
 .leaflet-popup-content b{font-weight:700}
 
+/* Fotos plegables */
+.ver-foto{display:inline-flex;align-items:center;margin-top:6px;padding:5px 11px;min-height:34px;font:600 13px/1 Figtree,system-ui,sans-serif;color:var(--accent);background:transparent;border:1.5px solid var(--accent);border-radius:99px;cursor:pointer}
+.ver-foto[aria-expanded="true"]{background:var(--accent);color:var(--btn-ink)}
+.ver-foto:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.foto-plegable{margin:8px 0 2px}
+.foto-plegable img{display:block;width:100%;max-height:440px;object-fit:cover;border-radius:10px;background:var(--c-fin)}
+.foto-plegable figcaption{font-size:12px;color:var(--muted);margin:4px 0 10px}
+.foto-plegable figcaption a{color:inherit}
+
+/* El horario con fotos */
+.plan-fotos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 34px;margin-top:14px}
+.plan-fotos ol{list-style:none;margin:8px 0 0;padding:0}
+.plan-fotos li{padding:9px 0;border-top:1px solid var(--line)}
+.linea{display:grid;grid-template-columns:96px minmax(0,1fr);gap:8px}
+.linea time{font-size:13px;font-weight:600;color:var(--terra);font-variant-numeric:tabular-nums;padding-top:2px}
+.linea-nombre{font-weight:600}
+
+/* Tiempo previsto */
+.tiempo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.dia-tiempo{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.dia-tiempo h3{font-size:19px}
+.dia-lugar{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.dia-cielo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14.5px;line-height:1.25}
+.dia-icono{font-size:26px;line-height:1;flex:none}
+.dia-temp{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:24px;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.dia-temp small{font:500 15px Figtree,system-ui,sans-serif;color:var(--muted)}
+.dia-datos{list-style:none;margin:0;padding:0;font-size:13.5px;color:var(--muted)}
+.dia-datos li{display:flex;justify-content:space-between;gap:8px;padding:2px 0;font-variant-numeric:tabular-nums}
+.dia-datos b{font-weight:600;color:var(--ink)}
+.dia-aviso{margin:8px 0 0;padding:7px 9px;border-radius:8px;background:var(--warn-bg);color:var(--warn-ink);font-size:13px;line-height:1.35}
+.tiempo-nota{font-size:13px;color:var(--muted);margin:10px 0 0}
+.tiempo-error{grid-column:1/-1;padding:14px;background:var(--warn-bg);color:var(--warn-ink);border-radius:10px}
+.tiempo-error button{margin-top:8px;padding:7px 12px;font:600 14px Figtree,system-ui,sans-serif;background:var(--accent);color:var(--btn-ink);border:0;border-radius:8px;cursor:pointer}
+
 /* Frontera y consejos */
 .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 34px;margin-top:22px}
 .col{min-width:0}
@@ -168,7 +202,8 @@ footer li{break-inside:avoid;margin:3px 0}
   .day-grid{grid-template-columns:minmax(0,1fr)}
   .map-col{position:static}
   .map{height:420px}
-  .cols,.ends{grid-template-columns:minmax(0,1fr)}
+  .cols,.ends,.plan-fotos{grid-template-columns:minmax(0,1fr)}
+  .tiempo{grid-template-columns:repeat(2,minmax(0,1fr))}
   .check,footer ul{columns:1}
 }
 @media (max-width:640px){
@@ -204,10 +239,17 @@ footer li{break-inside:avoid;margin:3px 0}
     <li>Gandria</li><li>Lugano</li><li>Morcote</li><li class="border">Frontera</li><li>Abbadia Lariana</li>
   </ul>
   <nav class="toc" aria-label="Índice">
-    <a href="#horario">Horario</a><a href="#sabado">Sábado y mapa</a><a href="#domingo">Domingo y mapa</a><a href="#barcos">Barcos</a><a href="#frontera">Frontera</a><a href="#coche">Coche y dinero</a><a href="#ajustes">Si algo cambia</a><a href="#lista">Antes de salir</a>
+    <a href="#tiempo">Tiempo</a><a href="#horario">Horario</a><a href="#sabado">Sábado y mapa</a><a href="#domingo">Domingo y mapa</a><a href="#barcos">Barcos</a><a href="#frontera">Frontera</a><a href="#coche">Coche y dinero</a><a href="#ajustes">Si algo cambia</a><a href="#lista">Antes de salir</a>
   </nav>
-  <p class="assume"><strong>Estas fechas mandan en el plan.</strong> Anochece hacia las 17:10, así que lo importante va antes de esa hora. Los barcos ya van con horario de invierno. Villa Melzi, en Bellagio, cerró el 1 de noviembre. El funicular de San Salvatore abre por última vez el domingo 8, hasta las 17:00, y luego cierra hasta marzo.</p>
+  <p class="assume"><strong>Estas fechas mandan en el plan.</strong> El sol se pone hacia las 17:00, así que lo importante va antes de esa hora. Los barcos ya van con horario de invierno. Villa Melzi, en Bellagio, cerró el 1 de noviembre. El funicular de San Salvatore abre por última vez el domingo 8, hasta las 17:00, y luego cierra hasta marzo.</p>
 </header>
+
+<section id="tiempo">
+  <h2>Tiempo previsto</h2>
+  <p class="lede">Se actualiza solo cada vez que abres la página. Cuanto más cerca esté el viaje, más fiable será la previsión.</p>
+  <div class="tiempo" id="tiempo-dias"><p class="tiempo-nota">Cargando la previsión…</p></div>
+  <p class="tiempo-nota" id="tiempo-fuente"></p>
+</section>
 
 <section id="horario">
   <h2>Horario frente a frente</h2>
@@ -236,6 +278,9 @@ footer li{break-inside:avoid;margin:3px 0}
       <a class="btn" id="btn-vuelta" target="_blank" rel="noopener">Ruta a Malpensa en Google Maps</a>
     </div>
   </div>
+  <h2 style="margin-top:40px">El horario con fotos</h2>
+  <p class="lede">El mismo plan, de arriba abajo. Pulsa Ver imagen para ver qué te vas a encontrar y Ocultar imagen para cerrarla.</p>
+  <div class="plan-fotos" id="plan-fotos"></div>
 </section>
 
 <section id="sabado">
@@ -425,6 +470,7 @@ footer li{break-inside:avoid;margin:3px 0}
     <li><a href="https://www.sicurauto.it/news/pedaggio-pedemontana-guida-al-pagamento-sullautostrada-free-flow/" target="_blank" rel="noopener">Sicurauto: pago de la Pedemontana</a></li>
     <li><a href="https://travel-europe.europa.eu/en/etias" target="_blank" rel="noopener">UE: ETIAS y EES</a></li>
   </ul>
+  <p>Previsión del tiempo: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0). Fotos: Wikimedia Commons, reducidas de tamaño; el autor y la licencia aparecen bajo cada una.</p>
   <p>Cartografía simplificada a partir de © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>. Para ver calles, usad los enlaces a Google Maps.</p>
 </footer>
 </div>
@@ -460,7 +506,7 @@ const DAYS = {
    ['12:30','13:30','comida','Comida en Lenno','Frente al lago','z-tremezzina'],
    ['13:30','15:30','visita','Villa del Balbianello','25 minutos a pie. Entrada con reserva','z-tremezzina'],
    ['15:30','16:30','coche','Coche a Como','Por la SS340, sin parar','z-tremezzina'],
-   ['16:30','17:30','mirador','Brunate al atardecer','Funicular. Se pone el sol hacia las 17:10','z-brunate'],
+   ['16:30','17:30','mirador','Brunate al atardecer','Funicular. Se pone el sol hacia las 17:00','z-brunate'],
    ['17:30','19:00','visita','Como de noche','Duomo, Broletto, San Fedele y paseo del lago','z-como'],
    ['19:00','20:30','comida','Cena en Como','','z-como'],
    ['20:30','21:30','coche','Vuelta al hotel','Por Lecco, unos 50 minutos','z-base']
@@ -561,6 +607,24 @@ const DAYS = {
  }
 };
 
+const CREDITOS = {"abbadia":{"titulo":"Abbadia Lariana","autor":"Tournasol7","licencia":"CC BY 4.0","url":"https://commons.wikimedia.org/wiki/File:Lake_Como_in_Abbadia_Lariana_(4).jpg"},"salita":{"titulo":"Salita Serbelloni","autor":"Davide Mauro","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Salita_Serbelloni.jpg"},"sangiacomo":{"titulo":"Basilica di San Giacomo","autor":"Daderot","licencia":"Public domain","url":"https://commons.wikimedia.org/wiki/File:Basilica_di_San_Giacomo_(Bellagio)_-_DSC02647.JPG"},"spartivento":{"titulo":"Punta Spartivento","autor":"Guilhem Vellut from Annecy, France","licencia":"CC BY 2.0","url":"https://commons.wikimedia.org/wiki/File:Punta_Spartivento_@_Bellagio_(49589913777).jpg"},"pescallo":{"titulo":"Pescallo","autor":"Jakob0000","licencia":"CC0","url":"https://commons.wikimedia.org/wiki/File:Bellagio_Pescallo.jpg"},"lago":{"titulo":"Bellagio y el lago","autor":"Luca Casartelli","licencia":"CC BY-SA 2.0","url":"https://commons.wikimedia.org/wiki/File:Sentiero_del_Viandante_DSC_6340_(14020554463).jpg"},"lenno":{"titulo":"Lenno","autor":"Nemracc","licencia":"CC BY-SA 3.0","url":"https://commons.wikimedia.org/wiki/File:Lenno,_Como_Lake,_Italy.jpg"},"balbianello":{"titulo":"Villa del Balbianello","autor":"Emibuzz","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Tremezzina_-_Villa_del_Balbianello_-_2024-09-08_16-26-39_007.jpg"},"carlotta":{"titulo":"Villa Carlotta","autor":"Jean-Christophe BENOIST","licencia":"CC BY 3.0","url":"https://commons.wikimedia.org/wiki/File:Tremezzo_-_Villa_Carlotta.jpg"},"funicular":{"titulo":"Funicular Como–Brunate","autor":"Emanu37429","licencia":"CC0","url":"https://commons.wikimedia.org/wiki/File:Funicolare_Como_Brunate_-_Veicolo_in_direzione_Como.jpg"},"brunatevista":{"titulo":"Como desde Brunate","autor":"Łukasz Pojezierski","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Panorama_from_the_Brunate_overlook_-_October_2024.jpg"},"duomo":{"titulo":"Duomo de Como","autor":"Eebie","licencia":"CC BY 4.0","url":"https://commons.wikimedia.org/wiki/File:Cathedral_of_Como_(Italy)_west_facade.jpg"},"broletto":{"titulo":"Broletto","autor":"Tomcorengia","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Como_-_Broletto_di_Como_-_202209062224.jpeg"},"fedele":{"titulo":"Basilica di San Fedele","autor":"Alicezeppelin","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Front_view_of_the_Basilica_di_San_Fedele.jpg"},"cavour":{"titulo":"Piazza Cavour","autor":"Qazxsw","licencia":"Public domain","url":"https://commons.wikimedia.org/wiki/File:Piazza_cavour_e_brunate.JPG"},"voltiano":{"titulo":"Tempio Voltiano","autor":"Krzysztof Golik","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Tempio_Voltiano_in_Como_(1).jpg"},"varenna":{"titulo":"Varenna desde el lago","autor":"DD991","licencia":"CC0","url":"https://commons.wikimedia.org/wiki/File:Varenna_20260811.jpg"},"sangiorgio":{"titulo":"Piazza San Giorgio","autor":"AronMSzabo","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Piazza_San_Giorgio,_Varenna,_Italia.jpg"},"oria":{"titulo":"Oria","autor":"Laurom","licencia":"Public domain","url":"https://commons.wikimedia.org/wiki/File:Oria_Valsolda_Campanile_Lago.JPG"},"gandria":{"titulo":"Gandria","autor":"Franck Arcuiolo","licencia":"CC BY-SA 3.0","url":"https://commons.wikimedia.org/wiki/File:Le_Village_de_Gandria_01.jpg"},"ciani":{"titulo":"Parco Ciani","autor":"JoachimKohler-HB","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Parco_Ciani_am_Lago_di_Lugano_in_Lugano_(2013).jpg"},"riforma":{"titulo":"Piazza della Riforma","autor":"JoachimKohler-HB","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Piazza_della_Riforma_a_Lugano_(2013).jpg"},"nassa":{"titulo":"Via Nassa","autor":"JoachimKohler-HB","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Via_Nassa_in_Lugano_(2026).jpg"},"angioli":{"titulo":"Santa Maria degli Angioli","autor":"Monster4711","licencia":"CC0","url":"https://commons.wikimedia.org/wiki/File:Kirche_Santa_Maria_degli_Angioli.jpg"},"lac":{"titulo":"LAC Lugano","autor":"Dario Crespi","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:LAC_Lugano_06.jpg"},"sanlorenzo":{"titulo":"Cattedrale di San Lorenzo","autor":"Elvezio at Italian Wikipedia","licencia":"Public domain","url":"https://commons.wikimedia.org/wiki/File:Facciata_Cattedrale_di_Lugano.jpg"},"funisalvatore":{"titulo":"Funicular de San Salvatore","autor":"Chris j wood","licencia":"CC BY-SA 3.0","url":"https://commons.wikimedia.org/wiki/File:Monte_San_Salvatore_funicular_03.jpg"},"salvatore":{"titulo":"Monte San Salvatore","autor":"Roland Zumbühl (Picswiss)","licencia":"CC BY-SA 3.0","url":"https://commons.wikimedia.org/wiki/File:Picswiss_TI-16-02.jpg"},"bre":{"titulo":"El lago desde Monte Brè","autor":"John Samuel","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:View_of_Lake_Lugano_and_Monte_Br%C3%A8_12.jpg"},"morcote":{"titulo":"Morcote","autor":"Bob Tan y Zacharie Grossen","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Morcote_Aerial.jpg"},"sasso":{"titulo":"Santa Maria del Sasso","autor":"MartySwissCH","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Chiesa_Santa_Maria_del_Sasso_-_Morcote.jpg"},"uncia":{"titulo":"Polenta uncia","autor":"Mænsard vokser","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Polenta_%22uncia%22_servita_al_rifugio_del_Monte_Palanzone_%22Rifugio_Riella%22_(Como)_-_08-11-2015.JPG"},"lugano":{"titulo":"Lugano y San Salvatore","autor":"SamuelFerrara","licencia":"CC BY-SA 4.0","url":"https://commons.wikimedia.org/wiki/File:Lago_di_Lugano_at_Sunset_(cropped_2).jpg"}};
+const FOTOS_BASE = 'https://marcosfp.github.io/paginas-claude/test-viaje/';
+const FOTO_PUNTO = {
+ 'Park Hotel Abbadia':'abbadia','Salita Serbelloni':'salita','Basilica di San Giacomo':'sangiacomo','Punta Spartivento':'spartivento','Pescallo':'pescallo',
+ 'Lenno y su lido':'lenno','Villa del Balbianello':'balbianello','Villa Carlotta':'carlotta','Funicular Como–Brunate':'funicular','Miradores de Brunate':'brunatevista',
+ 'Duomo de Como':'duomo','Broletto':'broletto','Basilica di San Fedele':'fedele','Piazza Cavour y paseo del lago':'cavour','Tempio Voltiano':'voltiano',
+ 'Passeggiata degli Innamorati':'varenna','Piazza San Giorgio':'sangiorgio','Oria (Valsolda)':'oria','Gandria':'gandria','Parco Ciani':'ciani','Piazza della Riforma':'riforma',
+ 'Via Nassa':'nassa','Santa Maria degli Angioli':'angioli','LAC Lugano Arte e Cultura':'lac','Cattedrale di San Lorenzo':'sanlorenzo','Funicular de San Salvatore':'funisalvatore',
+ 'Cima de San Salvatore':'salvatore','Monte Brè (plan B)':'bre','Pórticos de Morcote':'morcote','Santa Maria del Sasso':'sasso'
+};
+const FOTO_BLOQUE = {
+ 'sat|Ferri a Bellagio':['lago'],'sat|Bellagio':['salita','spartivento','sangiacomo'],'sat|Comida en Lenno':['lenno'],'sat|Villa del Balbianello':['balbianello'],
+ 'sat|Brunate al atardecer':['funicular','brunatevista'],'sat|Como de noche':['duomo','broletto','fedele'],'sat|Cena en Como':['cavour'],
+ 'sun|Varenna':['varenna','sangiorgio'],'sun|Coche a Gandria':['oria'],'sun|Gandria':['gandria'],'sun|Lugano centro':['ciani','riforma','nassa','angioli'],
+ 'sun|Comida':['uncia'],'sun|Monte San Salvatore':['funisalvatore','lugano'],'sun|Morcote':['morcote','sasso']
+};
+const botonFoto = fotos => `<button type="button" class="ver-foto" data-fotos="${fotos.join(',')}" aria-expanded="false">Ver imagen</button>`;
+
 const CHECKS = [
  'Comprar la entrada de Balbianello para el sábado sobre las 14:00',
  'Avisar al hotel de la hora de llegada del viernes',
@@ -579,6 +643,25 @@ const CHECKS = [
 
 document.documentElement.lang = 'es';
 document.addEventListener('click',e=>{
+  const v = e.target.closest('.ver-foto');
+  if(v){
+    let fig = v.nextElementSibling;
+    if(!fig || !fig.classList.contains('foto-plegable')){
+      fig = document.createElement('div');
+      fig.className = 'foto-plegable';
+      fig.innerHTML = v.dataset.fotos.split(',').map(k=>{
+        const c = CREDITOS[k];
+        return `<figure style="margin:0"><img src="${FOTOS_BASE}${k}.jpg" alt="${esc(c.titulo)}" loading="lazy"><figcaption>${esc(c.titulo)} · <a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.autor)}</a> · ${esc(c.licencia)}</figcaption></figure>`;
+      }).join('');
+      v.after(fig);
+    } else {
+      fig.hidden = !fig.hidden;
+    }
+    const abierta = !fig.hidden;
+    v.setAttribute('aria-expanded',abierta);
+    v.textContent = abierta ? 'Ocultar imagen' : 'Ver imagen';
+    return;
+  }
   const a = e.target.closest('a[href^="#"]'); if(!a) return;
   const t = document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
   e.preventDefault(); t.scrollIntoView();
@@ -613,6 +696,55 @@ $('btn-vuelta').href = dir(HOTEL_Q,'Aeroporto di Milano Malpensa');
   });
   tt.innerHTML = html;
 })();
+
+/* Horario con fotos */
+$('plan-fotos').innerHTML = [['sat','Sábado 7'],['sun','Domingo 8']].map(([d,titulo])=>{
+  const filas = DAYS[d].blocks.map(([a,b,cat,name,sub,z,label])=>{
+    const fotos = FOTO_BLOQUE[d+'|'+name];
+    return `<li class="linea"><time>${label || (a+'–'+b)}</time><div><span class="linea-nombre">${esc(name)}</span>${fotos?'<br>'+botonFoto(fotos):''}</div></li>`;
+  }).join('');
+  return `<div><h3>${titulo}</h3><ol>${filas}</ol></div>`;
+}).join('');
+
+/* Tiempo previsto */
+const LUGARES_TIEMPO = [
+ {lat:45.895,lng:9.334},{lat:45.987,lng:9.261},{lat:46.003,lng:8.952}
+];
+const DIAS_TIEMPO = [
+ {fecha:'2026-11-06',titulo:'Viernes 6',lugar:'Abbadia Lariana · llegada',i:0},
+ {fecha:'2026-11-07',titulo:'Sábado 7',lugar:'Lago de Como · Bellagio',i:1,lluvia:'Mira el plan B: Villa Carlotta en lugar de Brunate.'},
+ {fecha:'2026-11-08',titulo:'Domingo 8',lugar:'Suiza · Lugano',i:2,lluvia:'Mira el plan B: Luini y el LAC en lugar de San Salvatore.'},
+ {fecha:'2026-11-09',titulo:'Lunes 9',lugar:'Abbadia Lariana · vuelta',i:0,lluvia:'Sal con más margen hacia el aeropuerto.'}
+];
+const CIELO = c => c===0?['☀️','Despejado']:c<=2?['⛅','Algo nuboso']:c===3?['☁️','Cubierto']:c<=48?['🌫️','Niebla']:c<=57?['🌦️','Llovizna']:c<=67?['🌧️','Lluvia']:c<=77?['❄️','Nieve']:c<=82?['🌦️','Chubascos']:c<=86?['❄️','Chubascos de nieve']:['⛈️','Tormenta'];
+
+function pintarTiempo(datos){
+  $('tiempo-dias').innerHTML = DIAS_TIEMPO.map(d=>{
+    const dd = datos[d.i].daily, k = dd.time.indexOf(d.fecha);
+    if(k<0) return '';
+    const [icono,texto] = CIELO(dd.weather_code[k]);
+    const prob = dd.precipitation_probability_max[k], mm = dd.precipitation_sum[k];
+    const aviso = d.lluvia && (prob>=60 || mm>=5) ? `<p class="dia-aviso">${d.lluvia}</p>` : '';
+    return `<article class="dia-tiempo"><h3>${d.titulo}</h3><p class="dia-lugar">${d.lugar}</p>
+      <div class="dia-cielo"><span class="dia-icono" aria-hidden="true">${icono}</span>${texto}</div>
+      <p class="dia-temp">${Math.round(dd.temperature_2m_max[k])}° <small>/ ${Math.round(dd.temperature_2m_min[k])}°</small></p>
+      <ul class="dia-datos"><li>Lluvia <b>${prob} %</b></li><li>Cantidad <b>${String(mm).replace('.',',')} mm</b></li><li>Viento <b>${Math.round(dd.wind_speed_10m_max[k])} km/h</b></li><li>Puesta de sol <b>${dd.sunset[k].slice(11)}</b></li></ul>${aviso}</article>`;
+  }).join('');
+  const hora = new Date().toLocaleString('es-ES',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
+  $('tiempo-fuente').textContent = 'Datos de Open-Meteo, consultados el ' + hora + '. Lluvia: la probabilidad máxima del día.';
+}
+function cargarTiempo(){
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude='+LUGARES_TIEMPO.map(l=>l.lat).join(',')+'&longitude='+LUGARES_TIEMPO.map(l=>l.lng).join(',')+
+    '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,sunset&timezone=Europe%2FRome&start_date=2026-11-06&end_date=2026-11-09';
+  const ctrl = new AbortController();
+  const corte = setTimeout(()=>ctrl.abort(),12000);
+  $('tiempo-dias').innerHTML = '<p class="tiempo-nota">Cargando la previsión…</p>';
+  fetch(url,{signal:ctrl.signal}).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(pintarTiempo).catch(()=>{
+    $('tiempo-dias').innerHTML = '<div class="tiempo-error">No he podido cargar la previsión. Comprueba la conexión e inténtalo otra vez.<br><button type="button" id="tiempo-reintentar">Reintentar</button></div>';
+    $('tiempo-reintentar').addEventListener('click',cargarTiempo);
+  }).finally(()=>clearTimeout(corte));
+}
+cargarTiempo();
 
 /* Zonas y mapas */
 const hasLeaflet = typeof L !== 'undefined';
@@ -657,7 +789,7 @@ function buildDay(key){
       return `<li class="pt${opt?' opt':''}" tabindex="0" data-id="${id}" style="--zc:${z.color}">
         <span class="num">${n}</span>
         <div><span class="pt-name">${esc(name)}</span>${opt?'<span class="pt-tag">opcional</span>':''}
-        <p class="pt-desc">${esc(desc)} <a class="pt-link" href="${gm(q)}" target="_blank" rel="noopener">Google Maps</a></p></div></li>`;
+        <p class="pt-desc">${esc(desc)} <a class="pt-link" href="${gm(q)}" target="_blank" rel="noopener">Google Maps</a></p>${FOTO_PUNTO[name]?botonFoto([FOTO_PUNTO[name]]):''}</div></li>`;
     }).join('');
     return `<div class="zone" id="${z.id}"><div class="zone-head"><h3>${esc(z.name)}</h3><span class="zone-time">${esc(z.time)}</span></div>
       <p class="note">${esc(z.note)}</p><ol class="pts">${rows}</ol></div>`;
@@ -675,12 +807,12 @@ function buildDay(key){
       map.flyToBounds(L.latLngBounds(pts),{padding:[40,40],maxZoom:15,duration:.6});
     });
     zonesEl.addEventListener('click',e=>{
-      if(e.target.closest('a')) return;
+      if(e.target.closest('a,button,figure')) return;
       const li = e.target.closest('.pt'); if(!li) return; focusPt(li.dataset.id);
     });
     zonesEl.addEventListener('keydown',e=>{
       if(e.key!=='Enter' && e.key!==' ') return;
-      const li = e.target.closest('.pt'); if(!li || e.target.closest('a')) return;
+      const li = e.target.closest('.pt'); if(!li || e.target.closest('a,button')) return;
       e.preventDefault(); focusPt(li.dataset.id);
     });
     function focusPt(id){
