@@ -1,4 +1,4 @@
-const TRAILER = {
+(window.TRAILERS = window.TRAILERS || {})["sabado"] = {
  "dia": "sabado",
  "titulo": "Trailer del sábado",
  "subtitulo": "Sábado 7 de noviembre · El día del lago",

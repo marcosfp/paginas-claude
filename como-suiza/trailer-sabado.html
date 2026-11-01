@@ -19,6 +19,7 @@
   <div class="arriba"><div class="tramos" id="tramos"></div></div>
   <div class="hora" id="hora"></div>
   <a class="volver" href="./">Volver al plan</a>
+  <div class="plan-chip" id="plan-chip"></div>
 
   <div class="postal" id="postal">
     <div class="postal-foto" id="postal-foto"></div>
@@ -41,6 +42,7 @@
   <div class="capa" id="portada">
     <p class="kicker">Sábado 7 de noviembre</p>
     <h1>Trailer del sábado</h1>
+    <div class="selector" data-selector role="group" aria-label="Elige el plan del sábado"></div>
     <p id="duracion"></p>
     <button type="button" class="boton" id="btn-empezar"><span class="icono"></span>Reproducir</button>
   </div>
@@ -52,14 +54,16 @@
     <div class="botones">
       <a class="boton" href="./">Ver el plan del viaje</a>
       <button type="button" class="boton segundo" id="btn-otra"><span class="icono"></span>Verlo otra vez</button>
+      <button type="button" class="boton segundo" id="btn-otro-plan"><span class="icono"></span><span></span></button>
     </div>
   </div>
 </div>
-<audio id="voz" src="trailer-sabado.mp3" preload="auto"></audio>
+<audio id="voz" preload="auto"></audio>
 <script src="leaflet.js"></script>
 <script src="trailer-mapa.js"></script>
 <script src="trailer-creditos.js"></script>
 <script src="trailer-sabado-datos.js"></script>
+<script src="trailer-sabado-sin-coche-datos.js"></script>
 <script src="trailer-sabado-ruta.js"></script>
 <script src="trailer.js"></script>
 </body>

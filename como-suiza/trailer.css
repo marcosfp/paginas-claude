@@ -33,9 +33,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--ruta);outline-offse
 .parada-etiqueta span::after{content:"";position:absolute;left:50%;bottom:-5px;margin-left:-5px;border:5px solid transparent;border-bottom:0;border-top-color:var(--tinta)}
 
 /* Vehículo */
-.vehiculo{width:64px;height:48px;position:relative;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
-.vehiculo svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.vehiculo.izq svg{transform:scaleX(-1)}
+.vehiculo{position:relative;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
+.vehiculo img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vehiculo.izq img{transform:scaleX(-1)}
 .moviendo .vehiculo{animation:bote .36s ease-in-out infinite alternate}
 .en-pausa .vehiculo{animation-play-state:paused}
 @keyframes bote{from{transform:translateY(0)}to{transform:translateY(-3px)}}
@@ -88,5 +88,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--ruta);outline-offse
 .boton svg{width:20px;height:20px;fill:currentColor}
 .boton.segundo{background:rgba(247,245,240,.16);color:var(--claro)}
 .botones{display:flex;flex-wrap:wrap;gap:10px}
+.selector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;max-width:520px;margin:0 0 16px}
+.selector[hidden]{display:none}
+.selector button{display:flex;flex-direction:column;gap:3px;text-align:left;padding:10px 12px;color:var(--claro);font-weight:600;font-size:14.5px;line-height:1.25;background:rgba(247,245,240,.12);border:1.5px solid rgba(247,245,240,.35);border-radius:10px}
+.selector button span{font-weight:500;font-size:12.5px;color:var(--suave)}
+.selector button[aria-pressed="true"]{background:var(--claro);border-color:var(--claro);color:var(--tinta)}
+.selector button[aria-pressed="true"] span{color:#566670}
+.plan-chip{position:absolute;z-index:3;left:max(12px,env(safe-area-inset-left,0px));top:calc(max(8px,env(safe-area-inset-top,0px)) + 50px + clamp(34px,10vw,64px));font-size:11.5px;font-weight:700;color:var(--tinta);text-shadow:0 0 4px #fff,0 0 4px #fff;max-width:36vw;line-height:1.2}
+.con-capa .plan-chip{visibility:hidden}
 @media (min-aspect-ratio:11/10){.postal{width:clamp(240px,34vw,460px)}}
 @media (prefers-reduced-motion:reduce){.vehiculo,.postal.salta{animation:none!important}}
