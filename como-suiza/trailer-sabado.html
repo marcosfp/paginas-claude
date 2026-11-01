@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Trailer del sábado</title>
+<meta property="og:title" content="Trailer del sábado">
+<meta property="og:description" content="El sábado en el Lago de Como, hora a hora, con mapa y voz.">
+<meta property="og:image" content="https://marcosfp.github.io/paginas-claude/test-viaje/balbianello.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaflet.css">
+<link rel="stylesheet" href="trailer.css">
+</head>
+<body>
+<div class="escenario en-pausa con-capa" id="escenario">
+  <div id="mapa" aria-label="Mapa con el recorrido del día"></div>
+
+  <div class="arriba"><div class="tramos" id="tramos"></div></div>
+  <div class="hora" id="hora"></div>
+  <a class="volver" href="./">Volver al plan</a>
+
+  <div class="postal" id="postal">
+    <div class="postal-foto" id="postal-foto"></div>
+    <div class="credito" id="credito"></div>
+  </div>
+
+  <div class="ficha" id="ficha">
+    <h2 class="titulo" id="titulo"></h2>
+    <p class="narracion" id="narracion"></p>
+    <div class="mandos">
+      <button type="button" class="mando" id="btn-texto" aria-pressed="false" aria-label="Mostrar u ocultar el texto">Aa</button>
+      <button type="button" class="mando" id="btn-atras" aria-label="Escena anterior"></button>
+      <button type="button" class="mando grande" id="btn-play"></button>
+      <button type="button" class="mando" id="btn-adelante" aria-label="Escena siguiente"></button>
+      <button type="button" class="mando" id="btn-velocidad" aria-label="Cambiar la velocidad">×1</button>
+      <span class="tiempo" id="tiempo"></span>
+    </div>
+  </div>
+
+  <div class="capa" id="portada">
+    <p class="kicker">Sábado 7 de noviembre</p>
+    <h1>Trailer del sábado</h1>
+    <p id="duracion"></p>
+    <button type="button" class="boton" id="btn-empezar"><span class="icono"></span>Reproducir</button>
+  </div>
+
+  <div class="capa oculto" id="final">
+    <p class="kicker">Fin del sábado</p>
+    <h1>Mañana, Suiza</h1>
+    <p>Ya sabes lo que toca. Ahora, a ver los detalles en el plan.</p>
+    <div class="botones">
+      <a class="boton" href="./">Ver el plan del viaje</a>
+      <button type="button" class="boton segundo" id="btn-otra"><span class="icono"></span>Verlo otra vez</button>
+    </div>
+  </div>
+</div>
+<audio id="voz" src="trailer-sabado.mp3" preload="auto"></audio>
+<script src="leaflet.js"></script>
+<script src="trailer-mapa.js"></script>
+<script src="trailer-creditos.js"></script>
+<script src="trailer-sabado-datos.js"></script>
+<script src="trailer-sabado-ruta.js"></script>
+<script src="trailer.js"></script>
+</body>
+</html>
