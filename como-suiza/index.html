@@ -240,7 +240,7 @@ footer li{break-inside:avoid;margin:3px 0}
   .block b{font-size:12.5px}
   .block time{font-size:10.5px}
   .block em{display:none}
-  .block.short{flex-direction:column;align-items:flex-start;justify-content:center}
+  .block.short{flex-direction:column;flex-wrap:nowrap;align-items:flex-start;justify-content:center}
 }
 @media print{
   .toc,.map-actions,.zoomers,.check input{display:none}
@@ -751,7 +751,7 @@ const SAT_PIE = {
     ['08:00','10:00','coche','Coche a Cadenabbia','Por Lecco, Como y la SS340','z-base','07:45–09:45'],
     ['10:00','10:30','ferri','Ferri a Bellagio a pie','','z-bellagio','10:00–10:10'],
     ['10:30','12:00','visita','Bellagio','Salita Serbelloni, Punta Spartivento y café','z-bellagio','10:10–11:55'],
-    ['12:00','12:30','ferri','Ferri a pie y coche a Lenno','','z-tremezzina','11:55–12:20']
+    ['12:00','12:30','ferri','Ferri y coche a Lenno','','z-tremezzina','11:55–12:20']
   ].concat(SAT_COCHE.blocks.slice(5)),
   lines:[{r:'como_abbadia'},{r:'lenno_como'},{r:'cadenabbia_lenno'},{pts:[PIER.cadenabbia,PIER.bellagio],ferry:true}],
   gmaps:[
