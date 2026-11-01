@@ -728,10 +728,10 @@ function pintarTiempo(datos){
     return `<article class="dia-tiempo"><h3>${d.titulo}</h3><p class="dia-lugar">${d.lugar}</p>
       <div class="dia-cielo"><span class="dia-icono" aria-hidden="true">${icono}</span>${texto}</div>
       <p class="dia-temp">${Math.round(dd.temperature_2m_max[k])}° <small>/ ${Math.round(dd.temperature_2m_min[k])}°</small></p>
-      <ul class="dia-datos"><li>Lluvia <b>${prob} %</b></li><li>Cantidad <b>${String(mm).replace('.',',')} mm</b></li><li>Viento <b>${Math.round(dd.wind_speed_10m_max[k])} km/h</b></li><li>Puesta de sol <b>${dd.sunset[k].slice(11)}</b></li></ul>${aviso}</article>`;
+      <ul class="dia-datos"><li>Prob. lluvia <b>${prob} %</b></li><li>Cantidad <b>${(Math.round(mm*10)/10).toLocaleString('es-ES')} mm</b></li><li>Viento <b>${Math.round(dd.wind_speed_10m_max[k])} km/h</b></li><li>Puesta de sol <b>${dd.sunset[k].slice(11)}</b></li></ul>${aviso}</article>`;
   }).join('');
   const hora = new Date().toLocaleString('es-ES',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
-  $('tiempo-fuente').textContent = 'Datos de Open-Meteo, consultados el ' + hora + '. Lluvia: la probabilidad máxima del día.';
+  $('tiempo-fuente').textContent = 'Datos de Open-Meteo, consultados el ' + hora + '. Prob. lluvia: la más alta del día. Cantidad: el total previsto.';
 }
 function cargarTiempo(){
   const url = 'https://api.open-meteo.com/v1/forecast?latitude='+LUGARES_TIEMPO.map(l=>l.lat).join(',')+'&longitude='+LUGARES_TIEMPO.map(l=>l.lng).join(',')+
