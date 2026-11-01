@@ -1,21 +1,37 @@
 <!doctype html>
 <html lang="es">
+<head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Páginas</title>
+<title>Viaje a Como y Suiza</title>
+<meta property="og:title" content="Viaje al Lago de Como y Suiza">
+<meta property="og:description" content="El plan del viaje y el test para ver cuánto sabes de él.">
+<meta property="og:image" content="https://marcosfp.github.io/paginas-claude/test-viaje/balbianello.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F7F5F0;--ink:#1C2A33;--muted:#566670;--accent:#0F5C73;color-scheme:light dark}
-@media (prefers-color-scheme:dark){:root{--bg:#12191E;--ink:#E9EEF0;--muted:#A3B3BB;--accent:#6CC2D8}}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:640px;margin:0 auto;padding:48px 16px}
-h1{font-size:30px;margin:0 0 18px}
-a{color:var(--accent);font-weight:600}
-li{margin:8px 0}
+:root{--bg:#F7F5F0;--surface:#FFFFFF;--ink:#1C2A33;--muted:#566670;--line:#DDD8CD;--accent:#0F5C73;--terra:#B4532A}
+@media (prefers-color-scheme:dark){:root{--bg:#12191E;--surface:#1A2329;--ink:#E9EEF0;--muted:#A3B3BB;--line:#2F3C45;--accent:#6CC2D8;--terra:#E79A74;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:620px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.kicker{font-weight:600;color:var(--terra);font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:clamp(32px,8vw,44px);line-height:1.15;margin:0 0 24px;text-wrap:balance}
+.tarjetas{display:grid;gap:12px;list-style:none;margin:0;padding:0}
+.tarjetas a{display:block;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);transition:border-color .12s}
+.tarjetas a:hover{border-color:var(--accent)}
+.tarjetas strong{display:block;font-family:Fraunces,Georgia,serif;font-size:22px;font-weight:650;color:var(--accent);line-height:1.2}
+.tarjetas span{display:block;margin-top:4px;color:var(--muted);font-size:15.5px}
 </style>
+</head>
+<body>
 <main>
-<h1>Páginas</h1>
-<ul>
-<li><a href="./como-suiza/">Lago de Como y Suiza en 48 horas</a></li>
-</ul>
+  <p class="kicker">6–9 de noviembre de 2026</p>
+  <h1>Viaje al Lago de Como y Suiza</h1>
+  <ul class="tarjetas">
+    <li><a href="./como-suiza/"><strong>El plan del viaje</strong><span>Horario de sábado y domingo, mapas, ferris y consejos de frontera.</span></a></li>
+    <li><a href="./test-viaje/"><strong>El test del viaje</strong><span>10, 15 o 20 preguntas sobre el plan, los monumentos y la comida, con alguna parida.</span></a></li>
+  </ul>
 </main>
+</body>
+</html>
