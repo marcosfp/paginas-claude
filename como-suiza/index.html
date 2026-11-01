@@ -140,6 +140,29 @@ a.block:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .leaflet-popup-content{font:400 14px/1.4 Figtree,system-ui,sans-serif;margin:10px 14px}
 .leaflet-popup-content b{font-weight:700}
 
+/* Hotel */
+.hotel-nombre{font-weight:600;font-size:18px;margin:12px 0 2px}
+.hotel-dir{font-style:normal;color:var(--muted)}
+
+/* Selector del sábado */
+.bloque-sab{margin:18px 0 0;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.bloque-sab h3{margin-bottom:10px}
+.selector-sab{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.selector-sab button{display:flex;flex-direction:column;gap:3px;text-align:left;padding:10px 12px;font:600 14.5px/1.25 Figtree,system-ui,sans-serif;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;cursor:pointer}
+.selector-sab button span{font-weight:500;font-size:12.5px;color:var(--muted)}
+.selector-sab button:hover{border-color:var(--accent)}
+.selector-sab button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.selector-sab button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--btn-ink)}
+.selector-sab button[aria-pressed="true"] span{color:var(--btn-ink)}
+.resumen-sab{margin:10px 0 0;font-size:15px}
+.bloque-sab details{margin-top:10px}
+.bloque-sab summary{cursor:pointer;font-weight:600;color:var(--accent);font-size:15px}
+.bloque-sab .explica{font-size:15px;color:var(--muted);margin:10px 0 0}
+.bloque-sab .explica b{color:var(--ink)}
+.tbl-corta{min-width:0;font-size:14px}
+.tbl-corta th,.tbl-corta td{padding:8px 10px}
+:root[data-sab="coche"] .solo-pie,:root[data-sab="pie"] .solo-coche{display:none}
+
 /* Fotos plegables */
 .ver-foto{display:inline-flex;align-items:center;margin-top:6px;padding:5px 11px;min-height:34px;font:600 13px/1 Figtree,system-ui,sans-serif;color:var(--accent);background:transparent;border:1.5px solid var(--accent);border-radius:99px;cursor:pointer}
 .ver-foto[aria-expanded="true"]{background:var(--accent);color:var(--btn-ink)}
@@ -232,17 +255,27 @@ footer li{break-inside:avoid;margin:3px 0}
 <header>
   <p class="kicker">6–9 de noviembre de 2026 · Italia y Suiza</p>
   <h1>Lago de Como y Suiza en 48 horas</h1>
-  <p class="lede">El sábado dais la vuelta al lago: Bellagio, Lenno y Como. El domingo cruzáis a Suiza por Gandria, veis Lugano y Morcote, y volvéis por Chiasso. Son unos 220 km en coche y tres ferris, sin repetir carretera y sin pisar autopista suiza, así que no necesitáis la viñeta de 40 francos.</p>
+  <p class="lede">El sábado dais la vuelta al lago: Bellagio, Lenno y Como. El domingo cruzáis a Suiza por Gandria, veis Lugano y Morcote, y volvéis por Chiasso. Son unos 220 km en coche y tres ferris, sin repetir carretera y sin pisar autopista suiza, así que no necesitáis la viñeta de 40 francos. El sábado podéis elegir entre meter o no el coche en el ferri.</p>
   <ul class="route">
     <li>Abbadia Lariana</li><li>Bellagio</li><li>Lenno</li><li>Como</li><li>Abbadia Lariana</li><li>Varenna</li><li>Menaggio</li>
     <li class="border">Frontera</li>
     <li>Gandria</li><li>Lugano</li><li>Morcote</li><li class="border">Frontera</li><li>Abbadia Lariana</li>
   </ul>
   <nav class="toc" aria-label="Índice">
-    <a href="#tiempo">Tiempo</a><a href="#horario">Horario</a><a href="#sabado">Sábado y mapa</a><a href="#domingo">Domingo y mapa</a><a href="#barcos">Barcos</a><a href="#frontera">Frontera</a><a href="#coche">Coche y dinero</a><a href="#ajustes">Si algo cambia</a><a href="#lista">Antes de salir</a>
+    <a href="#hotel">Hotel</a><a href="#tiempo">Tiempo</a><a href="#horario">Horario</a><a href="#sabado">Sábado y mapa</a><a href="#domingo">Domingo y mapa</a><a href="#barcos">Barcos</a><a href="#frontera">Frontera</a><a href="#coche">Coche y dinero</a><a href="#ajustes">Si algo cambia</a><a href="#lista">Antes de salir</a>
   </nav>
   <p class="assume"><strong>Estas fechas mandan en el plan.</strong> El sol se pone hacia las 17:00, así que lo importante va antes de esa hora. Los barcos ya van con horario de invierno. Villa Melzi, en Bellagio, cerró el 1 de noviembre. El funicular de San Salvatore abre por última vez el domingo 8, hasta las 17:00, y luego cierra hasta marzo.</p>
 </header>
+
+<section id="hotel">
+  <h2>Hotel</h2>
+  <p class="hotel-nombre">Park Hotel Abbadia</p>
+  <address class="hotel-dir">Via Nazionale 142<br>23821 Abbadia Lariana, Italia</address>
+  <div class="map-actions">
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Park%20Hotel%20Abbadia%2C%20Via%20Nazionale%20142%2C%2023821%20Abbadia%20Lariana" target="_blank" rel="noopener">Abrir en Google Maps</a>
+    <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;travelmode=driving&amp;destination=Park%20Hotel%20Abbadia%2C%20Via%20Nazionale%20142%2C%2023821%20Abbadia%20Lariana" target="_blank" rel="noopener">Cómo llegar</a>
+  </div>
+</section>
 
 <section id="tiempo">
   <h2>Tiempo previsto</h2>
@@ -254,6 +287,30 @@ footer li{break-inside:avoid;margin:3px 0}
 <section id="horario">
   <h2>Horario frente a frente</h2>
   <p class="lede">Léelo como un horario de clases. Cada bloque lleva a sus puntos de visita. Las horas de los barcos son exactas según el horario oficial. Las demás son orientativas.</p>
+  <div class="bloque-sab">
+    <h3>Sábado: ¿con coche en el ferri o sin él?</h3>
+    <div class="selector-sab" data-selector-sab></div>
+    <p class="resumen-sab" id="resumen-sab"></p>
+    <details>
+      <summary>Ver la explicación completa</summary>
+      <div class="tbl-wrap"><table class="tbl-corta">
+        <thead><tr><th></th><th>Con coche</th><th>Sin coche</th></tr></thead>
+        <tbody>
+          <tr><td>Salida del hotel</td><td>08:15</td><td>07:45</td></tr>
+          <tr><td>Coche por la mañana</td><td>Unos 30 min hasta Varenna</td><td>Unas 2 h hasta Cadenabbia</td></tr>
+          <tr><td>Tiempo en Bellagio</td><td>2 h 30</td><td>1 h 45</td></tr>
+          <tr><td>Ferris para dos</td><td>Unos 36 €</td><td>Unos 22 €</td></tr>
+          <tr><td>Carretera en el día</td><td>Unos 85 km</td><td>Unos 140 km</td></tr>
+          <tr><td>La tarde</td><td colspan="2">Igual: Lenno, Balbianello, Brunate y Como</td></tr>
+        </tbody>
+      </table></div>
+      <p class="explica"><b>Cuánto cuesta meter el coche.</b> Por ferri y para dos personas: 15,60 € si mide hasta 3,50 m, 18,20 € de 3,50 a 4,50 m (lo más probable) y 22,30 € si mide más. Se paga en la taquilla, sin reservar. A bordo hay un recargo de 1 € por persona y por vehículo, salvo si la taquilla está cerrada.</p>
+      <p class="explica"><b>Qué ganáis con el coche.</b> Evitáis la mañana de carretera y os quedáis más rato en Bellagio. Además, cruzar el lago de orilla a orilla ya es parte de la visita.</p>
+      <p class="explica"><b>Por qué sin coche se sale de Cadenabbia.</b> Si lo dejarais en Varenna, se quedaría en la orilla equivocada y no podríais seguir a Lenno y Como. Por eso, en este plan se aparca en Cadenabbia y se cruza a Bellagio a pie, ida y vuelta.</p>
+      <p class="explica"><b>Nuestra recomendación:</b> con coche. Sin él ahorráis unos 14 € en ferris, aunque gastáis más gasolina, salís antes y perdéis 45 minutos en Bellagio.</p>
+      <p class="explica"><b>¿Y el domingo?</b> Este selector solo cambia el sábado. El ferri del domingo también es opcional: si llueve mucho o queréis llegar antes a Suiza, se puede ir por Chiasso, ida y vuelta. Os ahorráis unos 18 €, pero perdéis Varenna y el cruce en barco. Se decide esa misma mañana, porque no se reserva.</p>
+    </details>
+  </div>
   <div class="legend" id="legend"></div>
   <div class="tt" id="timetable" role="group" aria-label="Horario de sábado y domingo"></div>
   <div class="ends">
@@ -285,7 +342,8 @@ footer li{break-inside:avoid;margin:3px 0}
 
 <section id="sabado">
   <h2>Sábado 7: Lago de Como</h2>
-  <p class="lede">Una vuelta completa sin repetir tramo. Cruzáis el lago con el coche en dos ferris, bajáis por la orilla oeste y veis el atardecer desde Brunate antes de pasear Como de noche.</p>
+  <p class="lede" id="lede-sab"></p>
+  <div class="selector-sab" data-selector-sab style="margin-top:14px"></div>
   <div class="day-grid">
     <div class="map-col">
       <div class="zoomers" id="zoom-sat" aria-label="Acercar el mapa a una zona"></div>
@@ -315,11 +373,13 @@ footer li{break-inside:avoid;margin:3px 0}
   <h2>Los tres ferris</h2>
   <p class="lede">Horario oficial de invierno, en vigor del 2 de noviembre al 14 de marzo. Los horarios del sábado son los de día laborable y los del domingo, los de festivo. Llegad 15 minutos antes con el coche: las plazas son limitadas.</p>
   <div class="tbl-wrap"><table>
-    <thead><tr><th>Día</th><th>Trayecto con coche</th><th>Salida del plan</th><th>Si lo perdéis</th></tr></thead>
+    <thead><tr><th>Día</th><th>Trayecto</th><th>Salida del plan</th><th>Si lo perdéis</th></tr></thead>
     <tbody>
-      <tr><td>Sábado</td><td>Varenna → Bellagio</td><td class="nums">09:10</td><td class="nums">10:35 o 12:05</td></tr>
-      <tr><td>Sábado</td><td>Bellagio → Cadenabbia</td><td class="nums">11:55</td><td class="nums">13:05 o 14:25</td></tr>
-      <tr><td>Domingo</td><td>Varenna → Menaggio</td><td class="nums">09:15</td><td class="nums">09:55 o 11:25</td></tr>
+      <tr class="solo-coche"><td>Sábado</td><td>Varenna → Bellagio, con coche</td><td class="nums">09:10</td><td class="nums">10:35 o 12:05</td></tr>
+      <tr class="solo-coche"><td>Sábado</td><td>Bellagio → Cadenabbia, con coche</td><td class="nums">11:55</td><td class="nums">13:05 o 14:25</td></tr>
+      <tr class="solo-pie"><td>Sábado</td><td>Cadenabbia → Bellagio, a pie</td><td class="nums">10:00</td><td class="nums">10:30 o 11:00</td></tr>
+      <tr class="solo-pie"><td>Sábado</td><td>Bellagio → Cadenabbia, a pie</td><td class="nums">11:55</td><td class="nums">13:05 o 14:25</td></tr>
+      <tr><td>Domingo</td><td>Varenna → Menaggio, con coche</td><td class="nums">09:15</td><td class="nums">09:55 o 11:25</td></tr>
     </tbody>
   </table></div>
   <p class="map-key">En el horario, unas salidas llevan código T y otras B: he elegido siempre T porque parecen las de ferri de coches, pero el folleto no lo aclara, así que preguntad en taquilla la primera vez.</p>
@@ -618,7 +678,7 @@ const FOTO_PUNTO = {
  'Cima de San Salvatore':'salvatore','Monte Brè (plan B)':'bre','Pórticos de Morcote':'morcote','Santa Maria del Sasso':'sasso'
 };
 const FOTO_BLOQUE = {
- 'sat|Ferri a Bellagio':['lago'],'sat|Bellagio':['salita','spartivento','sangiacomo'],'sat|Comida en Lenno':['lenno'],'sat|Villa del Balbianello':['balbianello'],
+ 'sat|Ferri a Bellagio':['lago'],'sat|Ferri a Bellagio a pie':['lago'],'sat|Bellagio':['salita','spartivento','sangiacomo'],'sat|Comida en Lenno':['lenno'],'sat|Villa del Balbianello':['balbianello'],
  'sat|Brunate al atardecer':['funicular','brunatevista'],'sat|Como de noche':['duomo','broletto','fedele'],'sat|Cena en Como':['cavour'],
  'sun|Varenna':['varenna','sangiorgio'],'sun|Coche a Gandria':['oria'],'sun|Gandria':['gandria'],'sun|Lugano centro':['ciani','riforma','nassa','angioli'],
  'sun|Comida':['uncia'],'sun|Monte San Salvatore':['funisalvatore','lugano'],'sun|Morcote':['morcote','sasso']
@@ -643,6 +703,8 @@ const CHECKS = [
 
 document.documentElement.lang = 'es';
 document.addEventListener('click',e=>{
+  const sel = e.target.closest('[data-modo]');
+  if(sel){ cambiarModo(sel.dataset.modo); return; }
   const v = e.target.closest('.ver-foto');
   if(v){
     let fig = v.nextElementSibling;
@@ -676,8 +738,70 @@ const slot = t => { const [h,m] = t.split(':').map(Number); return (h-7)*2 + (m>
 $('btn-llegada').href = dir('Aeroporto di Milano Malpensa',HOTEL_Q);
 $('btn-vuelta').href = dir(HOTEL_Q,'Aeroporto di Milano Malpensa');
 
+/* Plan del sábado: con o sin coche en el ferri */
+const SAT_COCHE = {
+  blocks:DAYS.sat.blocks, lines:DAYS.sat.lines, gmaps:DAYS.sat.gmaps, zonas:{},
+  lede:'Una vuelta completa sin repetir tramo. Cruzáis el lago con el coche en dos ferris, bajáis por la orilla oeste y veis el atardecer desde Brunate antes de pasear Como de noche.',
+  resumen:'Plan recomendado. Cruzáis el lago con el coche de Varenna a Bellagio y de Bellagio a Cadenabbia: unos 36 € en ferris y 2 h 30 en Bellagio.'
+};
+DAYS.sat.zones.forEach(z=>{ SAT_COCHE.zonas[z.id] = {time:z.time,note:z.note}; });
+const SAT_PIE = {
+  blocks:[
+    ['07:30','08:00','comida','Desayuno','','z-base','07:00–07:45'],
+    ['08:00','10:00','coche','Coche a Cadenabbia','Por Lecco, Como y la SS340','z-base','07:45–09:45'],
+    ['10:00','10:30','ferri','Ferri a Bellagio a pie','','z-bellagio','10:00–10:10'],
+    ['10:30','12:00','visita','Bellagio','Salita Serbelloni, Punta Spartivento y café','z-bellagio','10:10–11:55'],
+    ['12:00','12:30','ferri','Ferri a pie y coche a Lenno','','z-tremezzina','11:55–12:20']
+  ].concat(SAT_COCHE.blocks.slice(5)),
+  lines:[{r:'como_abbadia'},{r:'lenno_como'},{r:'cadenabbia_lenno'},{pts:[PIER.cadenabbia,PIER.bellagio],ferry:true}],
+  gmaps:[
+    {label:'Hotel → Cadenabbia',origin:HOTEL_Q,dest:'Cadenabbia',way:['Como']},
+    {label:'Cadenabbia → Lenno → Como',origin:'Cadenabbia',dest:'Como',way:['Lenno']},
+    {label:'Como → Hotel',origin:'Como',dest:HOTEL_Q,way:[]}
+  ],
+  zonas:{
+    'z-base':{time:'Salida 07:45',note:'Vuestra base las tres noches, en la orilla este, en la rama de Lecco. Hoy vais por carretera: Lecco, Como y la SS340, unas 2 horas hasta Cadenabbia.'},
+    'z-bellagio':{time:'10:10 – 11:55',note:'Dejáis el coche en Cadenabbia, cerca del embarcadero y de pago, y cruzáis a pie en 10 minutos, por unos 5,50 € por persona y trayecto. Volved al embarcadero sobre las 11:40. Villa Melzi está cerrada desde el 2 de noviembre.'}
+  },
+  lede:'Bajáis por carretera hasta Cadenabbia, cruzáis a Bellagio a pie y volvéis a por el coche. La tarde es la misma: Lenno, Balbianello, atardecer en Brunate y Como de noche.',
+  resumen:'Vais por carretera hasta Cadenabbia, dejáis allí el coche y cruzáis a Bellagio a pie, ida y vuelta. Unos 22 € en ferris y 1 h 45 en Bellagio, pero con 2 horas de coche a primera hora.'
+};
+const RUTAS = {}, ACCIONES = {};
+let modoSab = 'coche';
+try { if(localStorage.getItem('viaje-modo-sabado')==='pie') modoSab = 'pie'; } catch(e){}
+
+function aplicarDatosSab(){
+  const v = modoSab==='pie' ? SAT_PIE : SAT_COCHE;
+  DAYS.sat.blocks = v.blocks; DAYS.sat.lines = v.lines; DAYS.sat.gmaps = v.gmaps;
+  DAYS.sat.zones.forEach(z=>{ const d = v.zonas[z.id] || SAT_COCHE.zonas[z.id]; z.time = d.time; z.note = d.note; });
+  document.documentElement.dataset.sab = modoSab;
+  $('lede-sab').textContent = v.lede;
+  $('resumen-sab').textContent = v.resumen;
+  document.querySelectorAll('[data-selector-sab]').forEach(s=>{
+    s.innerHTML = [['coche','Con coche en el ferri','Salís a las 08:15 · unos 36 €'],['pie','Sin coche en el ferri','Salís a las 07:45 · unos 22 €']]
+      .map(([m,t,d])=>`<button type="button" data-modo="${m}" aria-pressed="${m===modoSab}">${t}<span>${d}</span></button>`).join('');
+  });
+}
+function cambiarModo(m){
+  if(m===modoSab) return;
+  modoSab = m;
+  try { localStorage.setItem('viaje-modo-sabado',m); } catch(e){}
+  aplicarDatosSab();
+  pintarHorario();
+  pintarPlanFotos();
+  if(RUTAS.sat) RUTAS.sat();
+  ACCIONES.sat();
+  DAYS.sat.zones.forEach(z=>{
+    const n = document.getElementById(z.id);
+    if(!n) return;
+    n.querySelector('.zone-time').textContent = z.time;
+    n.querySelector('.note').textContent = z.note;
+  });
+}
+aplicarDatosSab();
+
 /* Horario */
-(function(){
+function pintarHorario(){
   $('legend').innerHTML = Object.keys(CATS).filter(k=>k!=='fin').map(k=>`<span><i class="${k}"></i>${CATS[k]}</span>`).join('');
   const tt = $('timetable');
   let html = `<div class="tt-head" style="grid-column:2">${DAYS.sat.title}<small>${DAYS.sat.sub}</small></div>
@@ -695,9 +819,11 @@ $('btn-vuelta').href = dir(HOTEL_Q,'Aeroporto di Milano Malpensa');
     });
   });
   tt.innerHTML = html;
-})();
+}
+pintarHorario();
 
 /* Horario con fotos */
+function pintarPlanFotos(){
 $('plan-fotos').innerHTML = [['sat','Sábado 7'],['sun','Domingo 8']].map(([d,titulo])=>{
   const filas = DAYS[d].blocks.map(([a,b,cat,name,sub,z,label])=>{
     const fotos = FOTO_BLOQUE[d+'|'+name];
@@ -705,6 +831,8 @@ $('plan-fotos').innerHTML = [['sat','Sábado 7'],['sun','Domingo 8']].map(([d,ti
   }).join('');
   return `<div><h3>${titulo}</h3><ol>${filas}</ol></div>`;
 }).join('');
+}
+pintarPlanFotos();
 
 /* Tiempo previsto */
 const LUGARES_TIEMPO = [
@@ -763,10 +891,15 @@ function buildDay(key){
     TOWNS.forEach(([name,lat,lng,d])=>L.marker([lat,lng],{interactive:false,keyboard:false,zIndexOffset:-1000,icon:L.divIcon({className:'town',iconSize:[0,0],html:'<span class="'+d+'">'+name+'</span>'})}).addTo(map));
     map.on('click',()=>map.scrollWheelZoom.enable());
     map.on('mouseout',()=>map.scrollWheelZoom.disable());
-    day.lines.forEach(l=>{
-      const pts = l.r ? ROUTES[l.r] : l.pts;
-      L.polyline(pts,{className:l.ferry?'route-ferry':'route-car',weight:l.ferry?3:4,opacity:.9,dashArray:l.ferry?'6 8':null,interactive:false}).addTo(map);
-    });
+    const capaRutas = L.layerGroup().addTo(map);
+    RUTAS[key] = () => {
+      capaRutas.clearLayers();
+      day.lines.forEach(l=>{
+        const pts = l.r ? ROUTES[l.r] : l.pts;
+        L.polyline(pts,{className:l.ferry?'route-ferry':'route-car',weight:l.ferry?3:4,opacity:.9,dashArray:l.ferry?'6 8':null,interactive:false}).addTo(capaRutas);
+      });
+    };
+    RUTAS[key]();
   } else {
     $('map-'+key).innerHTML = '<p class="map-fallback">El mapa no ha cargado. Prueba a recargar la página. Los enlaces de la lista y los botones de Google Maps siguen funcionando.</p>';
   }
@@ -829,7 +962,10 @@ function buildDay(key){
     });
   }
 
-  $('actions-'+key).innerHTML = day.gmaps.map(g=>`<a class="btn" href="${dir(g.origin,g.dest,g.way)}" target="_blank" rel="noopener">${esc(g.label)}</a>`).join('');
+  ACCIONES[key] = () => {
+    $('actions-'+key).innerHTML = day.gmaps.map(g=>`<a class="btn" href="${dir(g.origin,g.dest,g.way)}" target="_blank" rel="noopener">${esc(g.label)}</a>`).join('');
+  };
+  ACCIONES[key]();
 }
 buildDay('sat');
 buildDay('sun');
