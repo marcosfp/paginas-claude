@@ -281,6 +281,7 @@ footer li{break-inside:avoid;margin:3px 0}
   <h2>Hotel</h2>
   <p class="hotel-nombre">Park Hotel Abbadia</p>
   <address class="hotel-dir">Via Nazionale 142<br>23821 Abbadia Lariana, Italia</address>
+  <p class="hotel-dir">Desayuno incluido: los tres días se desayuna en el hotel antes de salir.</p>
   <div class="map-actions">
     <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Park%20Hotel%20Abbadia%2C%20Via%20Nazionale%20142%2C%2023821%20Abbadia%20Lariana" target="_blank" rel="noopener">Abrir en Google Maps</a>
     <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;travelmode=driving&amp;destination=Park%20Hotel%20Abbadia%2C%20Via%20Nazionale%20142%2C%2023821%20Abbadia%20Lariana" target="_blank" rel="noopener">Cómo llegar</a>
@@ -337,7 +338,7 @@ footer li{break-inside:avoid;margin:3px 0}
     <div>
       <h3>Lunes 9: vuelta</h3>
       <ol>
-        <li><span>Antes</span><div>Desayuno y paseo por el lago en Abbadia.</div></li>
+        <li><span>Antes</span><div>Desayuno en el hotel, que está incluido, y paseo por el lago en Abbadia.</div></li>
         <li><span>Salida</span><div>Salid del hotel unas 4 horas antes del vuelo. Lunes por la mañana: mejor con margen.</div></li>
         <li><span>Coche</span><div>Repostáis y devolvéis el coche en Malpensa unas 2 horas antes del vuelo.</div></li>
         
@@ -570,7 +571,7 @@ const DAYS = {
  sat:{
   title:'Sábado 7', sub:'Lago de Como',
   blocks:[
-   ['07:30','08:00','comida','Desayuno','','z-base','07:30–08:15'],
+   ['07:30','08:00','comida','Desayuno en el hotel','Incluido','z-base','07:30–08:15'],
    ['08:00','09:00','coche','Coche a Varenna','Por la orilla este. Id directos a la cola del ferri','z-base','08:15–09:00'],
    ['09:00','09:30','ferri','Ferri a Bellagio','','z-bellagio','09:10–09:25'],
    ['09:30','12:00','visita','Bellagio','Salita Serbelloni, Punta Spartivento y café','z-bellagio','09:25–11:55'],
@@ -620,7 +621,7 @@ const DAYS = {
  sun:{
   title:'Domingo 8', sub:'Suiza · Ticino',
   blocks:[
-   ['07:30','08:00','comida','Desayuno','','z-varenna'],
+   ['07:30','08:00','comida','Desayuno en el hotel','Incluido','z-varenna'],
    ['08:00','08:30','coche','Coche a Varenna','','z-varenna'],
    ['08:30','09:00','visita','Varenna','Paseo corto','z-varenna','08:30–09:05'],
    ['09:00','10:00','ferri','Ferri a Menaggio','Tarda 30 minutos en festivo','z-frontera','09:15–09:45'],
@@ -791,7 +792,7 @@ const SAT_COCHE = {
 DAYS.sat.zones.forEach(z=>{ SAT_COCHE.zonas[z.id] = {time:z.time,note:z.note}; });
 const SAT_PIE = {
   blocks:[
-    ['07:30','08:00','comida','Desayuno','','z-base','07:00–07:45'],
+    ['07:30','08:00','comida','Desayuno en el hotel','Incluido','z-base','07:00–07:45'],
     ['08:00','10:00','coche','Coche a Cadenabbia','Por Lecco, Como y la SS340','z-base','07:45–09:45'],
     ['10:00','10:30','ferri','Ferri a Bellagio a pie','','z-bellagio','10:00–10:10'],
     ['10:30','12:00','visita','Bellagio','Salita Serbelloni, Punta Spartivento y café','z-bellagio','10:10–11:55'],
