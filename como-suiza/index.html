@@ -163,6 +163,16 @@ a.block:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .tbl-corta th,.tbl-corta td{padding:8px 10px}
 :root[data-sab="coche"] .solo-pie,:root[data-sab="pie"] .solo-coche{display:none}
 
+/* Aparcamiento por zona */
+.aparca:empty{display:none}
+.aparca{margin:4px 0 10px;padding:10px 12px;background:var(--c-fin);border-radius:10px}
+.aparca h4{margin:0 0 6px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.aparca-item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:4px 0}
+.aparca-item + .aparca-item{border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.aparca-p{width:26px;height:26px;border-radius:6px;background:#1F5FA8;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.aparca-aviso{margin:4px 0 0;padding:5px 8px;border-radius:6px;background:var(--c-frontera);color:var(--t-frontera);font-size:13.5px;font-weight:600;line-height:1.35}
+.aparca-ir{display:inline-flex;align-items:center;margin-top:6px;min-height:34px;padding:5px 11px;font:600 13px/1 Figtree,system-ui,sans-serif;color:var(--btn-ink);background:var(--accent);border-radius:99px;text-decoration:none}
+
 /* Fotos plegables */
 .ver-foto{display:inline-flex;align-items:center;margin-top:6px;padding:5px 11px;min-height:34px;font:600 13px/1 Figtree,system-ui,sans-serif;color:var(--accent);background:transparent;border:1.5px solid var(--accent);border-radius:99px;cursor:pointer}
 .ver-foto[aria-expanded="true"]{background:var(--accent);color:var(--btn-ink)}
@@ -687,6 +697,38 @@ const FOTO_BLOQUE = {
 };
 const botonFoto = fotos => `<button type="button" class="ver-foto" data-fotos="${fotos.join(',')}" aria-expanded="false">Ver imagen</button>`;
 
+/* Aparcamiento por zona. ll: coordenadas exactas; q: búsqueda cuando no hay un punto fiable. */
+const APARCA = {
+ 'z-base':[{nombre:'Park Hotel Abbadia',nota:'No he encontrado datos de aparcamiento: preguntad al hotel si tiene plazas propias.',ll:HOTEL}],
+ 'z-bellagio':[
+   {nombre:'Parcheggio Lido',nota:'Junto al lago, a unos 200 m al sur del embarcadero de los ferris. Se llena pronto.',ll:[45.98415,9.25861],aviso:'El centro de Bellagio es ZTL todo el año: no paséis del embarcadero con el coche.'},
+   {nombre:'Parcheggio Valassina',nota:'Más plazas, a unos 10 minutos a pie del centro. Gratis según un blog, sin confirmar.',ll:[45.97978,9.26313]}
+ ],
+ 'z-tremezzina':[{nombre:'Piazza 11 Febbraio, Lenno',nota:'Aparcamiento en el centro de Lenno, gratis según un directorio, sin confirmar. Desde aquí, a pie al lido y a Balbianello.',ll:[45.97313,9.19593]}],
+ 'z-menaggio':[],
+ 'z-brunate':[{nombre:'Autosilo Via Auguadri, Como',nota:'Dejad aquí el coche al llegar a Como: os sirve para Brunate y para Como de noche. Unos 15 minutos a pie del funicular y 10 del Duomo. De pago.',ll:[45.8058,9.08742],aviso:'La Ciudad Amurallada de Como es ZTL las 24 horas, con cámaras: no entréis con el coche.'}],
+ 'z-como':[{nombre:'Autosilo Via Auguadri, Como',nota:'Es el mismo aparcamiento de Brunate. Si estuviera lleno, el Autosilo Valmulini queda más lejos, al sur.',ll:[45.8058,9.08742],aviso:'ZTL las 24 horas en la Ciudad Amurallada.'}],
+ 'z-varenna':[{nombre:'Aparcamientos de Varenna',nota:'Hay un aparcamiento de varias plantas junto a la iglesia y plazas de pago (rayas azules) en la estación y el embarcadero. Si no hay sitio en cinco minutos, id directos a la cola del ferri.',q:'parcheggio Varenna',aviso:'Hay ZTL junto a la iglesia: seguid los carteles.'}],
+ 'z-frontera':[],
+ 'z-gandria':[{nombre:'Parking Strada di Gandria',nota:'En la carretera, junto a la aduana. Al pueblo solo se baja a pie. De pago: llevad tarjeta y monedas en francos.',ll:[46.01464,9.0186],aviso:'Barrera en la bajada al pueblo: no se puede pasar con el coche.'}],
+ 'z-lugano':[{nombre:'Autosilo Balestra',nota:'El aparcamiento del plan, a unos 10 minutos a pie del centro. De pago.',ll:[46.0076,8.95355],aviso:'El centro (Via Nassa, Duomo, Riforma, Dante) es zona peatonal con permiso. Algunos domingos cierran al tráfico el paseo del lago.'}],
+ 'z-monte':[
+   {nombre:'Aparcamiento del funicular',nota:'Delante de la salida del funicular. Es pequeño y a veces está lleno. 6 francos.',ll:[45.99035,8.94539]},
+   {nombre:'Autosilo Palazzo Mantegazza',nota:'La alternativa si el primero está lleno, a pocos minutos a pie.',ll:[45.9924,8.94609]}
+ ],
+ 'z-morcote':[{nombre:'Autosilo Garavello',nota:'300 plazas en cuatro plantas, a la entrada del pueblo viniendo de Melide. De pago, con app o en el parquímetro.',ll:[45.92541,8.92001],aviso:'En el casco antiguo solo se permite cargar y descargar 15 minutos. No aparquéis en «La Costa»: 20 francos la hora.'}],
+ 'z-vuelta':[]
+};
+const APARCA_PIE = {
+ 'z-bellagio':[{nombre:'Embarcadero de Cadenabbia',nota:'Aquí se queda el coche mientras cruzáis a Bellagio a pie, unas 2 horas y cuarto. Hay aparcamiento junto al embarcadero, según un foro; el precio no lo he confirmado.',q:'parcheggio imbarcadero Cadenabbia Griante'}]
+};
+const irA = p => p.ll ? 'https://www.google.com/maps/dir/?api=1&travelmode=driving&destination='+p.ll.join(',') : 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.q);
+function htmlAparca(dia, id){
+  const lista = (dia==='sat' && modoSab==='pie' && APARCA_PIE[id]) || APARCA[id] || [];
+  if(!lista.length) return '';
+  return '<h4>Aparcamiento</h4>' + lista.map(p=>`<div class="aparca-item"><span class="aparca-p" aria-hidden="true">P</span><div><span class="pt-name">${esc(p.nombre)}</span><p class="pt-desc">${esc(p.nota)}</p>${p.aviso?`<p class="aparca-aviso">${esc(p.aviso)}</p>`:''}<a class="aparca-ir" href="${irA(p)}" target="_blank" rel="noopener">${p.ll?'Cómo llegar en Google Maps':'Buscar en Google Maps'}</a></div></div>`).join('');
+}
+
 const CHECKS = [
  'Comprar la entrada de Balbianello para el sábado sobre las 14:00',
  'Avisar al hotel de la hora de llegada del viernes',
@@ -798,6 +840,7 @@ function cambiarModo(m){
     if(!n) return;
     n.querySelector('.zone-time').textContent = z.time;
     n.querySelector('.note').textContent = z.note;
+    n.querySelector('.aparca').innerHTML = htmlAparca('sat', z.id);
   });
 }
 aplicarDatosSab();
@@ -927,7 +970,7 @@ function buildDay(key){
         <p class="pt-desc">${esc(desc)} <a class="pt-link" href="${gm(q)}" target="_blank" rel="noopener">Google Maps</a></p>${FOTO_PUNTO[name]?botonFoto([FOTO_PUNTO[name]]):''}</div></li>`;
     }).join('');
     return `<div class="zone" id="${z.id}"><div class="zone-head"><h3>${esc(z.name)}</h3><span class="zone-time">${esc(z.time)}</span></div>
-      <p class="note">${esc(z.note)}</p><ol class="pts">${rows}</ol></div>`;
+      <p class="note">${esc(z.note)}</p><div class="aparca" data-zona="${z.id}">${htmlAparca(key, z.id)}</div><ol class="pts">${rows}</ol></div>`;
   }).join('');
 
   if(map){
