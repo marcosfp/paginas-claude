@@ -1,7 +1,41 @@
 /* Reproductor del trailer: la pista de voz manda; las escenas, la foto y el vehículo siguen su tiempo. */
 (function () {
   const FOTOS = '../test-viaje/';
-  const CLAVE_MODO = 'viaje-modo-sabado';
+  const CLAVE_GUARDADO = typeof CLAVE_MODO !== 'undefined' ? CLAVE_MODO : 'viaje-modo-sabado';
+  /* Idioma: español por defecto; el ruso tiene su propia voz y textos (datos y audio con sufijo -ru). */
+  const CLAVE_IDIOMA = 'viaje-idioma-trailer';
+  const UI = {
+    es: { reproducir: 'Reproducir', volver: 'Volver al plan', otra: 'Verlo otra vez', verPlan: 'Ver el plan del viaje', quiz: 'Decidir con el quiz', foto: 'Foto: ', ver: 'Ver ', pausar: 'Pausar', irA: 'Ir a ', idioma: 'Idioma',
+      duracion: (m, s) => `Dura ${m} min ${s} s. Sube el volumen.` },
+    ru: { reproducir: 'Смотреть', volver: 'Назад к плану', otra: 'Посмотреть ещё раз', verPlan: 'План поездки (на испанском)', quiz: 'Выбрать с помощью теста (на испанском)', foto: 'Фото: ', ver: 'Смотреть: ', pausar: 'Пауза', irA: 'Перейти: ', idioma: 'Язык',
+      duracion: (m, s) => `Длится ${m} мин ${s} с. Включите звук.` }
+  };
+  const PARADAS_RU = { 'Hotel': 'Отель', 'Suiza': 'Швейцария', 'Atardecer': 'Закат', 'Funicular': 'Фуникулёр', 'Lago Maggiore': 'Лаго-Маджоре', 'Riforma': 'Риформа', 'Angioli': 'Анджоли' };
+  let idioma = 'es';
+  try { if (localStorage.getItem(CLAVE_IDIOMA) === 'ru') idioma = 'ru'; } catch (e) { /* sin almacenamiento */ }
+  const t = k => UI[idioma][k];
+  const et = k => (idioma === 'ru' && MODOS[k].etiqueta_ru) || MODOS[k].etiqueta;
+  const det = k => (idioma === 'ru' && MODOS[k].detalle_ru) || MODOS[k].detalle;
+  const datosDe = k => MODOS[k].datos + (idioma === 'ru' ? '-ru' : '');
+  const audioDe = k => idioma === 'ru' ? MODOS[k].audio.replace('.mp3', '-ru.mp3') : MODOS[k].audio;
+  const parada = s => (idioma === 'ru' && PARADAS_RU[s]) || s;
+
+  function aplicarTextos() {
+    document.documentElement.lang = idioma;
+    const pag = (typeof TEXTOS_PAGINA !== 'undefined' && TEXTOS_PAGINA[idioma]) || {};
+    document.querySelectorAll('[data-t]').forEach(n => {
+      const k = n.dataset.t;
+      const v = pag[k] !== undefined ? pag[k] : UI[idioma][k];
+      if (typeof v === 'string') n.textContent = v;
+    });
+    if (pag.h1) document.title = pag.h1;
+    document.querySelectorAll('[data-idiomas]').forEach(c => {
+      c.setAttribute('aria-label', t('idioma'));
+      c.querySelectorAll('[data-idioma]').forEach(b => b.setAttribute('aria-pressed', b.dataset.idioma === idioma));
+    });
+  }
+
+  const rutaFoto = k => (typeof FOTOS_DECIDE !== 'undefined' && FOTOS_DECIDE.includes(k) ? '../decide-domingo/' : FOTOS) + k + '.jpg';
   const ICONO = {
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
     pausa: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',
@@ -23,6 +57,7 @@
     ['Como',45.8060,9.0840,'to-r'],['Brunate',45.8195,9.0960,'to-r'],['Lecco',45.8566,9.3977,'to-r'],
     ['Porlezza',46.0375,9.1290,'to-u'],['Gandria',46.0057,9.0028,'to-u'],['Lugano',46.0095,8.9530,'to-u'],
     ['Morcote',45.9227,8.9150,'to-l'],['Mendrisio',45.8710,8.9875,'to-l'],['Chiasso',45.8352,9.0363,'to-r'],
+    ['Bellinzona',46.1940,9.0260,'to-r'],['Locarno',46.1680,8.7960,'to-l'],['Lavertezzo',46.2590,8.8370,'to-r'],
     ['ITALIA',45.905,9.215,'pais'],['ITALIA',46.075,9.11,'pais'],['SUIZA',46.075,8.93,'pais']
   ];
   const ESTILO = {
@@ -181,7 +216,7 @@
     }
     esc.classList.toggle('moviendo', enMarcha && v.moviendo);
     if (f >= 1 && !etiqueta && p.r.parada) {
-      etiqueta = L.marker(p.r.parada[0], { interactive: false, keyboard: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'parada-etiqueta', iconSize: [0, 0], html: `<span>${p.r.parada[1]}</span>` }) }).addTo(mapa);
+      etiqueta = L.marker(p.r.parada[0], { interactive: false, keyboard: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'parada-etiqueta', iconSize: [0, 0], html: `<span>${parada(p.r.parada[1])}</span>` }) }).addTo(mapa);
     }
   }
 
@@ -191,7 +226,7 @@
   function foto(k) {
     if (!imagenes[k]) {
       const i = document.createElement('img');
-      i.src = FOTOS + k + '.jpg';
+      i.src = rutaFoto(k);
       i.alt = '';
       cajaFoto.appendChild(i);
       imagenes[k] = i;
@@ -233,7 +268,7 @@
     $('#narracion').textContent = s.voz;
     const c = CREDITOS[s.img];
     const cr = $('#credito');
-    cr.textContent = 'Foto: ';
+    cr.textContent = t('foto');
     const a = document.createElement('a');
     a.href = c.url; a.target = '_blank'; a.rel = 'noopener';
     a.textContent = c.autor;
@@ -268,27 +303,30 @@
   function pintarSelectores() {
     document.querySelectorAll('[data-selector]').forEach(c => {
       c.hidden = clavesModo.length < 2;
-      c.innerHTML = clavesModo.map(k => `<button type="button" data-modo="${k}" aria-pressed="${k === modo}">${MODOS[k].etiqueta}<span>${MODOS[k].detalle} · ${fmt(TRAILERS[MODOS[k].datos].total)}</span></button>`).join('');
+      c.innerHTML = clavesModo.map(k => `<button type="button" data-modo="${k}" aria-pressed="${k === modo}">${et(k)}<span>${det(k)} · ${fmt(TRAILERS[datosDe(k)].total)}</span></button>`).join('');
     });
     const otro = clavesModo.find(k => k !== modo);
     const b = $('#btn-otro-plan');
     if (b) {
       b.hidden = !otro;
-      if (otro) b.lastChild.textContent = 'Ver ' + MODOS[otro].etiqueta.toLowerCase();
+      if (otro) {
+        const e = et(otro);
+        b.lastChild.textContent = t('ver') + (idioma === 'es' ? e.charAt(0).toLowerCase() + e.slice(1) : e);
+      }
     }
   }
 
   function cargarModo(m) {
     modo = m;
     const cfg = MODOS[m];
-    TRAILER = TRAILERS[cfg.datos];
+    TRAILER = TRAILERS[datosDe(m)];
     escenas = TRAILER.escenas;
     plan = prepararPlan(cfg.ruta);
-    if (clavesModo.length > 1) { try { localStorage.setItem(CLAVE_MODO, m); } catch (e) { /* sin almacenamiento */ } }
+    if (clavesModo.length > 1) { try { localStorage.setItem(CLAVE_GUARDADO, m); } catch (e) { /* sin almacenamiento */ } }
 
     audio.pause();
     sinAudio = false;
-    audio.src = cfg.audio;
+    audio.src = audioDe(m);
     audio.load();
     enMarcha = false;
 
@@ -304,7 +342,7 @@
     barras = escenas.map((s, n) => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.setAttribute('aria-label', `Ir a ${s.hora}: ${s.titulo}`);
+      b.setAttribute('aria-label', `${t('irA')}${s.hora}: ${s.titulo}`);
       b.style.flexGrow = Math.max(s.duracion, 4);
       b.innerHTML = '<span><i></i></span>';
       b.addEventListener('click', () => irA(n, true));
@@ -321,16 +359,20 @@
     pintarProgreso(0);
     ponerIcono();
 
-    $('#plan-chip').textContent = clavesModo.length > 1 ? cfg.etiqueta : '';
-    $('#duracion').textContent = `Dura ${Math.floor(TRAILER.total / 60)} min ${Math.floor(TRAILER.total % 60)} s. Sube el volumen.`;
+    $('#plan-chip').textContent = clavesModo.length > 1 ? et(m) : '';
+    $('#duracion').textContent = t('duracion')(Math.floor(TRAILER.total / 60), Math.floor(TRAILER.total % 60));
     pintarSelectores();
+    aplicarTextos();
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: TRAILER.titulo, artist: 'Como · Ticino' });
+    }
   }
 
   /* ---------- Reproducción ---------- */
   function ponerIcono() {
     const b = $('#btn-play');
     b.innerHTML = enMarcha ? ICONO.pausa : ICONO.play;
-    b.setAttribute('aria-label', enMarcha ? 'Pausar' : 'Reproducir');
+    b.setAttribute('aria-label', enMarcha ? t('pausar') : t('reproducir'));
     esc.classList.toggle('en-pausa', !enMarcha);
     if (!enMarcha) esc.classList.remove('moviendo');
   }
@@ -405,6 +447,12 @@
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-modo]');
     if (b && b.dataset.modo !== modo) cargarModo(b.dataset.modo);
+    const l = e.target.closest('[data-idioma]');
+    if (l && l.dataset.idioma !== idioma) {
+      idioma = l.dataset.idioma;
+      try { localStorage.setItem(CLAVE_IDIOMA, idioma); } catch (err) { /* sin almacenamiento */ }
+      cargarModo(modo);
+    }
   });
   $('#btn-empezar').addEventListener('click', arrancar);
   $('#btn-otra').addEventListener('click', () => { irA(0, false); arrancar(); });
@@ -443,11 +491,8 @@
   /* ---------- Estado inicial ---------- */
   let inicial = clavesModo[0];
   try {
-    const guardado = localStorage.getItem(CLAVE_MODO);
+    const guardado = localStorage.getItem(CLAVE_GUARDADO);
     if (guardado && MODOS[guardado]) inicial = guardado;
   } catch (e) { /* sin almacenamiento */ }
   cargarModo(inicial);
-  if ('mediaSession' in navigator) {
-    navigator.mediaSession.metadata = new MediaMetadata({ title: TRAILER.titulo, artist: 'Viaje al Lago de Como y Suiza' });
-  }
 })();

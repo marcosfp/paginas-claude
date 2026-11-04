@@ -18,7 +18,7 @@
 
   <div class="arriba"><div class="tramos" id="tramos"></div></div>
   <div class="hora" id="hora"></div>
-  <a class="volver" href="./">Volver al plan</a>
+  <a class="volver" href="./" data-t="volver">Volver al plan</a>
   <div class="plan-chip" id="plan-chip"></div>
 
   <div class="postal" id="postal">
@@ -40,20 +40,22 @@
   </div>
 
   <div class="capa" id="portada">
-    <p class="kicker">Sábado 7 de noviembre</p>
-    <h1>Trailer del sábado</h1>
+    <div class="idiomas" data-idiomas role="group" aria-label="Idioma"><button type="button" data-idioma="es" aria-pressed="true">ES</button><button type="button" data-idioma="ru" aria-pressed="false">RU</button></div>
+    <p class="kicker" data-t="kicker">Sábado 7 de noviembre</p>
+    <h1 data-t="h1">Trailer del sábado</h1>
     <div class="selector" data-selector role="group" aria-label="Elige el plan del sábado"></div>
     <p id="duracion"></p>
-    <button type="button" class="boton" id="btn-empezar"><span class="icono"></span>Reproducir</button>
+    <button type="button" class="boton" id="btn-empezar"><span class="icono"></span><span data-t="reproducir">Reproducir</span></button>
   </div>
 
   <div class="capa oculto" id="final">
-    <p class="kicker">Fin del sábado</p>
-    <h1>Mañana, Suiza</h1>
-    <p>Ya sabes lo que toca. Ahora, a ver los detalles en el plan.</p>
+    <p class="kicker" data-t="finKicker">Fin del sábado</p>
+    <h1 data-t="finH1">Mañana, Suiza</h1>
+    <p data-t="finP">Ya sabes lo que toca. Ahora, a ver los detalles en el plan.</p>
+    <div class="idiomas" data-idiomas role="group" aria-label="Idioma"><button type="button" data-idioma="es" aria-pressed="true">ES</button><button type="button" data-idioma="ru" aria-pressed="false">RU</button></div>
     <div class="botones">
-      <a class="boton" href="./">Ver el plan del viaje</a>
-      <button type="button" class="boton segundo" id="btn-otra"><span class="icono"></span>Verlo otra vez</button>
+      <a class="boton" href="./" data-t="verPlan">Ver el plan del viaje</a>
+      <button type="button" class="boton segundo" id="btn-otra"><span class="icono"></span><span data-t="otra">Verlo otra vez</span></button>
       <button type="button" class="boton segundo" id="btn-otro-plan"><span class="icono"></span><span></span></button>
     </div>
   </div>
@@ -64,6 +66,8 @@
 <script src="trailer-creditos.js"></script>
 <script src="trailer-sabado-datos.js"></script>
 <script src="trailer-sabado-sin-coche-datos.js"></script>
+<script src="trailer-sabado-ru-datos.js"></script>
+<script src="trailer-sabado-sin-coche-ru-datos.js"></script>
 <script src="trailer-sabado-ruta.js"></script>
 <script src="trailer.js"></script>
 </body>

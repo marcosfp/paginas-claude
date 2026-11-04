@@ -88,6 +88,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--ruta);outline-offse
 .boton svg{width:20px;height:20px;fill:currentColor}
 .boton.segundo{background:rgba(247,245,240,.16);color:var(--claro)}
 .botones{display:flex;flex-wrap:wrap;gap:10px}
+.idiomas{display:inline-flex;padding:3px;margin:0 0 14px;border-radius:99px;background:rgba(247,245,240,.14);border:1.5px solid rgba(247,245,240,.35)}
+.idiomas button{min-width:56px;min-height:36px;padding:6px 14px;border-radius:99px;color:var(--claro);font-weight:700;font-size:14px;letter-spacing:.04em}
+.idiomas button[aria-pressed="true"]{background:var(--claro);color:var(--tinta)}
 .selector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;max-width:520px;margin:0 0 16px}
 .selector[hidden]{display:none}
 .selector button{display:flex;flex-direction:column;gap:3px;text-align:left;padding:10px 12px;color:var(--claro);font-weight:600;font-size:14.5px;line-height:1.25;background:rgba(247,245,240,.12);border:1.5px solid rgba(247,245,240,.35);border-radius:10px}

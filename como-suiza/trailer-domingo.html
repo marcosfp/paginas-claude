@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Trailer del domingo</title>
+<meta property="og:title" content="Trailer del domingo">
+<meta property="og:description" content="El domingo en Suiza, hora a hora, con mapa y voz: opción A y opción B.">
+<meta property="og:image" content="https://marcosfp.github.io/paginas-claude/decide-domingo/castelgrande.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaflet.css">
+<link rel="stylesheet" href="trailer.css">
+</head>
+<body>
+<div class="escenario en-pausa con-capa" id="escenario">
+  <div id="mapa" aria-label="Mapa con el recorrido del día"></div>
+
+  <div class="arriba"><div class="tramos" id="tramos"></div></div>
+  <div class="hora" id="hora"></div>
+  <a class="volver" href="./" data-t="volver">Volver al plan</a>
+  <div class="plan-chip" id="plan-chip"></div>
+
+  <div class="postal" id="postal">
+    <div class="postal-foto" id="postal-foto"></div>
+    <div class="credito" id="credito"></div>
+  </div>
+
+  <div class="ficha" id="ficha">
+    <h2 class="titulo" id="titulo"></h2>
+    <p class="narracion" id="narracion"></p>
+    <div class="mandos">
+      <button type="button" class="mando" id="btn-texto" aria-pressed="false" aria-label="Mostrar u ocultar el texto">Aa</button>
+      <button type="button" class="mando" id="btn-atras" aria-label="Escena anterior"></button>
+      <button type="button" class="mando grande" id="btn-play"></button>
+      <button type="button" class="mando" id="btn-adelante" aria-label="Escena siguiente"></button>
+      <button type="button" class="mando" id="btn-velocidad" aria-label="Cambiar la velocidad">×1</button>
+      <span class="tiempo" id="tiempo"></span>
+    </div>
+  </div>
+
+  <div class="capa" id="portada">
+    <div class="idiomas" data-idiomas role="group" aria-label="Idioma"><button type="button" data-idioma="es" aria-pressed="true">ES</button><button type="button" data-idioma="ru" aria-pressed="false">RU</button></div>
+    <p class="kicker" data-t="kicker">Domingo 8 de noviembre · Suiza</p>
+    <h1 data-t="h1">Trailer del domingo</h1>
+    <div class="selector" data-selector role="group" aria-label="Elige la opción del domingo"></div>
+    <p id="duracion"></p>
+    <button type="button" class="boton" id="btn-empezar"><span class="icono"></span><span data-t="reproducir">Reproducir</span></button>
+  </div>
+
+  <div class="capa oculto" id="final">
+    <p class="kicker" data-t="finKicker">Fin del domingo</p>
+    <h1 data-t="finH1">Mañana, de vuelta a casa</h1>
+    <p data-t="finP">¿Os quedáis con esta opción o con la otra? Podéis verla también, o decidirlo con el quiz.</p>
+    <div class="idiomas" data-idiomas role="group" aria-label="Idioma"><button type="button" data-idioma="es" aria-pressed="true">ES</button><button type="button" data-idioma="ru" aria-pressed="false">RU</button></div>
+    <div class="botones">
+      <a class="boton" href="../decide-domingo/" data-t="quiz">Decidir con el quiz</a>
+      <button type="button" class="boton segundo" id="btn-otro-plan"><span class="icono"></span><span></span></button>
+      <button type="button" class="boton segundo" id="btn-otra"><span class="icono"></span><span data-t="otra">Verlo otra vez</span></button>
+    </div>
+  </div>
+</div>
+<audio id="voz" preload="auto"></audio>
+<script src="leaflet.js"></script>
+<script src="trailer-mapa.js"></script>
+<script src="trailer-creditos.js"></script>
+<script src="trailer-domingo-a-datos.js"></script>
+<script src="trailer-domingo-b-datos.js"></script>
+<script src="trailer-domingo-a-ru-datos.js"></script>
+<script src="trailer-domingo-b-ru-datos.js"></script>
+<script src="trailer-domingo-ruta.js"></script>
+<script src="trailer.js"></script>
+</body>
+</html>

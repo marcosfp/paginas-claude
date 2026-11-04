@@ -53,6 +53,10 @@ const RUTA_SIN_COCHE = [
 ].concat(RUTA_COCHE.slice(7));
 
 const MODOS = {
-  coche: { etiqueta: 'Con coche en el ferri', detalle: 'Salís a las 08:15', datos: 'sabado', audio: 'trailer-sabado.mp3', ruta: RUTA_COCHE },
-  pie: { etiqueta: 'Sin coche en el ferri', detalle: 'Salís a las 07:45', datos: 'sabado-sin-coche', audio: 'trailer-sabado-sin-coche.mp3', ruta: RUTA_SIN_COCHE }
+  coche: { etiqueta: 'Con coche en el ferri', detalle: 'Salís a las 08:15', etiqueta_ru: 'С машиной на пароме', detalle_ru: 'Выезд в 08:15', datos: 'sabado', audio: 'trailer-sabado.mp3', ruta: RUTA_COCHE },
+  pie: { etiqueta: 'Sin coche en el ferri', detalle: 'Salís a las 07:45', etiqueta_ru: 'Без машины на пароме', detalle_ru: 'Выезд в 07:45', datos: 'sabado-sin-coche', audio: 'trailer-sabado-sin-coche.mp3', ruta: RUTA_SIN_COCHE }
+};
+const TEXTOS_PAGINA = {
+  es: { kicker: 'Sábado 7 de noviembre', h1: 'Trailer del sábado', finKicker: 'Fin del sábado', finH1: 'Mañana, Suiza', finP: 'Ya sabes lo que toca. Ahora, a ver los detalles en el plan.' },
+  ru: { kicker: 'Суббота, 7 ноября', h1: 'Трейлер субботы', finKicker: 'Конец субботы', finH1: 'Завтра — Швейцария', finP: 'Теперь вы знаете план. Подробности — на странице плана.' }
 };
