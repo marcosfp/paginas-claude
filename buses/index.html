@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F5C73">
+<title>Nuestros buses</title>
+<meta property="og:title" content="Nuestros buses, en tiempo real">
+<meta property="og:description" content="Cuánto falta para el 63, el 143 y el E, y dónde está cada bus en el mapa.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F5F0;--surface:#FFFFFF;--ink:#1C2A33;--muted:#566670;--line:#DDD8CD;--accent:#0F5C73;--terra:#B4532A;--soft:#EEF4F5;--badge:#1F5FA8;--badge-ink:#fff;--fav:#FFF3E3}
+@media (prefers-color-scheme:dark){:root{--bg:#12191E;--surface:#1A2329;--ink:#E9EEF0;--muted:#A3B3BB;--line:#2F3C45;--accent:#6CC2D8;--terra:#E79A74;--soft:#1F2C33;--badge:#3E82CF;--fav:#2E2620;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.45 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:620px;margin:0 auto;padding:28px max(14px,env(safe-area-inset-right,0px)) 48px max(14px,env(safe-area-inset-left,0px))}
+.kicker{font-weight:600;color:var(--terra);font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin:0 0 6px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:clamp(30px,8vw,40px);line-height:1.1;margin:0 0 10px}
+.estado{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:15px;margin:0 0 18px}
+button{font:inherit;cursor:pointer}
+.recargar{border:1px solid var(--line);background:var(--surface);color:var(--accent);font-weight:600;border-radius:999px;padding:6px 14px;font-size:15px}
+.recargar:active{transform:scale(.97)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;margin:0 -2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14.5px;font-weight:500}
+.parada{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:0 0 16px;overflow:hidden;scroll-margin-top:10px}
+.cab{padding:16px 16px 10px}
+.cab h2{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:23px;line-height:1.2;margin:0;color:var(--accent)}
+.cab p{margin:3px 0 0;color:var(--muted);font-size:14.5px}
+.prox{margin:10px 16px 6px;padding:12px 14px;background:var(--fav);border-radius:10px;display:flex;align-items:center;gap:12px}
+.prox .min{font-family:Fraunces,Georgia,serif;font-size:34px;font-weight:650;line-height:1;color:var(--terra);white-space:nowrap}
+.prox .min small{font-size:16px;font-family:Figtree,system-ui,sans-serif;font-weight:600}
+.prox .txt{font-size:15px;line-height:1.3}
+.prox .txt b{font-weight:700}
+.lista{list-style:none;margin:6px 0 0;padding:0}
+.lista li{border-top:1px solid var(--line)}
+.fila{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:10px;width:100%;padding:11px 16px;background:none;border:0;color:var(--ink);text-align:left}
+.fila.fav{background:var(--fav)}
+.fila.sel{outline:2px solid var(--accent);outline-offset:-2px}
+.lin{min-width:44px;text-align:center;background:var(--badge);color:var(--badge-ink);font-weight:700;border-radius:7px;padding:3px 7px;font-size:16px}
+.dest{font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:capitalize}
+.t{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pin{font-size:13px;color:var(--accent);font-weight:600;white-space:nowrap}
+.mapa{padding:0 16px 14px}
+.mapa .rot{font-size:14.5px;color:var(--muted);margin:10px 0 8px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.mapa .rot a{color:var(--accent);font-weight:600}
+.mapa iframe,.original iframe{display:block;width:100%;border:0;border-radius:10px;background:var(--soft)}
+.mapa iframe{height:300px}
+.pie{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px 14px;border-top:1px solid var(--line)}
+.pie button,.pie a{border:0;background:var(--soft);color:var(--accent);border-radius:8px;padding:7px 11px;font-size:14px;font-weight:600;text-decoration:none}
+.original{padding:0 16px 14px}
+.original iframe{height:420px;background:#fff}
+.aviso{margin:10px 16px;padding:12px 14px;border-radius:10px;background:var(--soft);font-size:15px;color:var(--muted)}
+.mas{display:block;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--accent);font-weight:600;padding:10px;font-size:14.5px}
+.nota{color:var(--muted);font-size:13.5px;text-align:center;margin-top:22px}
+.cargando{opacity:.55;transition:opacity .2s}
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">EMT Madrid · tiempo real</p>
+  <h1>Nuestros buses</h1>
+  <div class="estado"><span id="act">Cargando…</span><button class="recargar" id="btn">Actualizar</button></div>
+  <nav class="chips" id="chips"></nav>
+  <div id="paradas"></div>
+  <p class="nota">Se actualiza solo cada 20 segundos. Toca un bus para ver en el mapa dónde está ahora.<br>Datos del panel público de la EMT.</p>
+</main>
+<script>
+// Paradas: número EMT, nombre, líneas que nos interesan y una nota.
+const PARADAS = [
+  {num: 2156, nombre: "Narváez con Ibiza", lineas: ["63"], nota: "Línea 63"},
+  {num: 4712, nombre: "O'Donnell", lineas: ["143"], nota: "Línea 143 · ida"},
+  {num: 4683, nombre: "Sierra de Guadalupe", lineas: ["143"], nota: "Línea 143 · vuelta"},
+  {num: 4281, nombre: "Conde de Casal", lineas: ["E"], nota: "Línea E"}
+];
+const EMT = n => `https://www.emtmadrid.es/PMVVisor/pmv.aspx?stopnum=${n}&size=10`;
+const CADA = 20000;
+const estado = {};   // por parada: {datos, error, sel, todas, original}
+
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mins = t => { const m = /(\d+)/.exec(t); return m ? +m[1] : (/llegando|>>/i.test(t) ? 0 : 999); };
+const esFav = (p, lin) => p.lineas.some(l => l.toUpperCase() === lin.toUpperCase());
+
+function leer(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const filas = [...doc.querySelectorAll("tr")].slice(1);
+  const buses = [];
+  for (const tr of filas) {
+    const td = tr.querySelectorAll("td");
+    if (td.length < 3) continue;
+    const a = td[3] && td[3].querySelector("a");
+    let lat = null, lng = null;
+    if (a) {
+      const m = /q=(-?[\d.]+),(-?[\d.]+)/.exec(a.getAttribute("href") || "");
+      if (m) { lat = +m[1]; lng = +m[2]; }
+    }
+    buses.push({lin: td[0].textContent.trim(), dest: td[1].textContent.trim(), t: td[2].textContent.trim(), lat, lng});
+  }
+  if (!buses.length) {
+    const msg = (doc.body.textContent || "").trim();
+    return {buses, msg: msg || "La EMT no ha devuelto estimaciones."};
+  }
+  // Clave estable para seguir el bus elegido entre actualizaciones
+  const cuenta = {};
+  buses.forEach(b => { const k = b.lin + "|" + b.dest; cuenta[k] = (cuenta[k] || 0) + 1; b.id = k + "|" + cuenta[k]; });
+  return {buses, msg: ""};
+}
+
+async function cargar(p) {
+  const e = estado[p.num];
+  try {
+    const r = await fetch(EMT(p.num), {cache: "no-store"});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = leer(await r.text());
+    e.datos = d.buses; e.error = d.msg; e.falloRed = false;
+  } catch (err) {
+    e.falloRed = true; e.error = "No se han podido leer los datos. Abajo tienes el panel original de la EMT.";
+    e.original = true;
+  }
+  pintar(p);
+}
+
+function mapaSrc(b) { return `https://maps.google.com/maps?q=${b.lat},${b.lng}&z=16&output=embed`; }
+
+function pintar(p) {
+  const e = estado[p.num];
+  const card = document.getElementById("p" + p.num);
+  const buses = e.datos || [];
+  const favs = buses.filter(b => esFav(p, b.lin)).sort((a, b) => mins(a.t) - mins(b.t));
+  const resto = buses.filter(b => !esFav(p, b.lin));
+  const sig = favs[0];
+
+  let html = `<div class="cab"><h2>${esc(p.nombre)}</h2><p>${esc(p.nota)} · parada ${p.num}</p></div>`;
+
+  if (e.error && !buses.length) {
+    html += `<div class="aviso">${esc(e.error)}</div>`;
+  } else if (sig) {
+    const otro = favs[1] ? ` El siguiente, en <b>${esc(favs[1].t)}</b>.` : "";
+    html += `<div class="prox"><div class="min">${mins(sig.t)}<small> min</small></div><div class="txt">Próximo <b>${esc(sig.lin)}</b> hacia ${esc(cap(sig.dest))}.${otro}</div></div>`;
+  } else {
+    html += `<div class="aviso">Ahora mismo no viene ningún ${p.lineas.join(" ni ")} en los próximos minutos.</div>`;
+  }
+
+  const visibles = e.todas ? favs.concat(resto) : favs.concat(resto).slice(0, Math.max(favs.length, 0) + 3);
+  if (buses.length) {
+    html += `<ul class="lista">` + visibles.map(b => {
+      const fav = esFav(p, b.lin);
+      const tieneMapa = b.lat !== null;
+      return `<li><button class="fila${fav ? " fav" : ""}${e.sel === b.id ? " sel" : ""}" data-id="${esc(b.id)}" ${tieneMapa ? "" : "disabled"}>
+        <span class="lin">${esc(b.lin)}</span><span class="dest">${esc(b.dest.toLowerCase())}</span><span class="t">${esc(b.t)}</span><span class="pin">${tieneMapa ? (e.sel === b.id ? "Ocultar" : "Mapa") : ""}</span></button></li>`;
+    }).join("") + `</ul>`;
+    if (favs.length + resto.length > visibles.length) html += `<button class="mas" data-acc="todas">Ver las ${buses.length} llegadas</button>`;
+    else if (e.todas && resto.length > 3) html += `<button class="mas" data-acc="todas">Ver menos</button>`;
+  }
+
+  // Mapa del bus elegido
+  const elegido = buses.find(b => b.id === e.sel);
+  if (e.sel && !elegido) e.sel = null;
+  const mapaPrevio = card.querySelector(".mapa iframe");
+  if (elegido) {
+    const gm = `https://maps.google.com/?q=${elegido.lat},${elegido.lng}`;
+    html += `<div class="mapa"><div class="rot"><span>El <b>${esc(elegido.lin)}</b> que llega en ${esc(elegido.t)} está aquí</span><a href="${gm}" target="_blank" rel="noopener">Abrir en Google Maps</a></div><div class="hueco-mapa"></div></div>`;
+  }
+
+  html += `<div class="pie"><button data-acc="original">${e.original ? "Ocultar panel EMT" : "Ver panel original EMT"}</button><a href="${EMT(p.num)}" target="_blank" rel="noopener">Abrir en la EMT</a></div>`;
+  if (e.original) html += `<div class="original"><div class="hueco-orig"></div></div>`;
+
+  // Conservar iframes para que no parpadeen al refrescar
+  const origPrevio = card.querySelector(".original iframe");
+  card.innerHTML = html;
+  card.classList.remove("cargando");
+
+  if (elegido) {
+    const src = mapaSrc(elegido);
+    let f = mapaPrevio;
+    if (!f || f.dataset.src !== src) {
+      f = document.createElement("iframe");
+      f.loading = "lazy"; f.referrerPolicy = "no-referrer-when-downgrade"; f.title = "Posición del bus";
+      f.src = src; f.dataset.src = src;
+    }
+    card.querySelector(".hueco-mapa").replaceWith(f);
+  }
+  if (e.original) {
+    let f = origPrevio;
+    if (!f) {
+      f = document.createElement("iframe");
+      f.title = "Panel EMT de la parada " + p.num; f.src = EMT(p.num);
+    }
+    card.querySelector(".hueco-orig").replaceWith(f);
+  }
+}
+
+function cap(s) { return s.toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase()); }
+
+let ultima = null;
+async function refrescar() {
+  document.querySelectorAll(".parada").forEach(c => c.classList.add("cargando"));
+  await Promise.all(PARADAS.map(cargar));
+  // El panel original también se recarga
+  document.querySelectorAll(".original iframe").forEach(f => { f.src = f.src; });
+  ultima = new Date();
+  reloj();
+}
+function reloj() {
+  if (!ultima) return;
+  const s = Math.round((Date.now() - ultima) / 1000);
+  $("#act").textContent = "Actualizado " + (s < 5 ? "ahora mismo" : `hace ${s} s`) + " · " + ultima.toLocaleTimeString("es-ES", {hour: "2-digit", minute: "2-digit"});
+}
+
+// Montaje
+const cont = $("#paradas"), chips = $("#chips");
+for (const p of PARADAS) {
+  estado[p.num] = {datos: null, error: "", sel: null, todas: false, original: false};
+  const sec = document.createElement("section");
+  sec.className = "parada cargando"; sec.id = "p" + p.num;
+  sec.innerHTML = `<div class="cab"><h2>${esc(p.nombre)}</h2><p>${esc(p.nota)} · parada ${p.num}</p></div><div class="aviso">Cargando…</div>`;
+  cont.appendChild(sec);
+  chips.insertAdjacentHTML("beforeend", `<a href="#p${p.num}">${esc(p.nombre)} · ${esc(p.lineas.join(", "))}</a>`);
+  sec.addEventListener("click", ev => {
+    const fila = ev.target.closest(".fila");
+    const acc = ev.target.closest("[data-acc]");
+    const e = estado[p.num];
+    if (fila) { e.sel = e.sel === fila.dataset.id ? null : fila.dataset.id; pintar(p); }
+    else if (acc && acc.dataset.acc === "todas") { e.todas = !e.todas; pintar(p); }
+    else if (acc && acc.dataset.acc === "original") { e.original = !e.original; pintar(p); }
+  });
+}
+$("#btn").addEventListener("click", refrescar);
+refrescar();
+setInterval(() => { if (!document.hidden) refrescar(); }, CADA);
+setInterval(reloj, 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden && (!ultima || Date.now() - ultima > 8000)) refrescar(); });
+</script>
+</body>
+</html>
