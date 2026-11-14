@@ -64,7 +64,7 @@ button{font:inherit;cursor:pointer}
   <div class="estado"><span id="act">Cargando…</span><button class="recargar" id="btn">Actualizar</button></div>
   <nav class="chips" id="chips"></nav>
   <div id="paradas"></div>
-  <p class="nota">Se actualiza solo cada 20 segundos. Toca un bus para ver en el mapa dónde está ahora.<br>Datos del panel público de la EMT.</p>
+  <p class="nota">Se actualiza solo cada 20 segundos. Toca un bus para ver en el mapa dónde está ahora.<br>Datos de la EMT Madrid.</p>
 </main>
 <script>
 // Paradas: número EMT, nombre, líneas que nos interesan y una nota.
@@ -96,28 +96,106 @@ function leer(html) {
       const m = /q=(-?[\d.]+),(-?[\d.]+)/.exec(a.getAttribute("href") || "");
       if (m) { lat = +m[1]; lng = +m[2]; }
     }
-    buses.push({lin: td[0].textContent.trim(), dest: td[1].textContent.trim(), t: td[2].textContent.trim(), lat, lng});
+    const t = td[2].textContent.trim();
+    buses.push({lin: td[0].textContent.trim(), dest: td[1].textContent.trim(), t, m: mins(t), lat, lng});
   }
   if (!buses.length) {
     const msg = (doc.body.textContent || "").trim();
     return {buses, msg: msg || "La EMT no ha devuelto estimaciones."};
   }
-  // Clave estable para seguir el bus elegido entre actualizaciones
+  return {buses: conIds(buses), msg: ""};
+}
+
+// Clave estable para seguir el bus elegido entre actualizaciones
+function conIds(buses) {
   const cuenta = {};
   buses.forEach(b => { const k = b.lin + "|" + b.dest; cuenta[k] = (cuenta[k] || 0) + 1; b.id = k + "|" + cuenta[k]; });
-  return {buses, msg: ""};
+  return buses;
+}
+
+// ---- API oficial de la EMT (MobilityLabs) ----
+// La llave NO está en este código: llega en el enlace, detrás de la almohadilla
+// (#k=CLIENTID:PASSKEY), que el navegador nunca envía a GitHub. Se guarda en el móvil.
+const API = "https://openapi.emtmadrid.es";
+(function guardarLlave() {
+  const m = /[#&]k=([^&]+)/.exec(location.hash);
+  if (m) {
+    const [id, pk] = decodeURIComponent(m[1]).split(":");
+    if (id && pk) { localStorage.setItem("emtLlave", JSON.stringify({id, pk})); localStorage.removeItem("emtToken"); }
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+})();
+const llave = () => { try { return JSON.parse(localStorage.getItem("emtLlave")); } catch { return null; } };
+let pidiendoToken = null;
+
+async function token(nuevo) {
+  if (!nuevo) {
+    try {
+      const t = JSON.parse(localStorage.getItem("emtToken"));
+      if (t && t.hasta > Date.now()) return t.valor;
+    } catch {}
+  }
+  if (!pidiendoToken) pidiendoToken = (async () => {
+    const k = llave();
+    const r = await fetch(API + "/v3/mobilitylabs/user/login/", {headers: {"X-ClientId": k.id, "passKey": k.pk}});
+    const j = await r.json();
+    const d = j.data && j.data[0];
+    if (!d || !d.accessToken) throw Object.assign(new Error("llave"), {llave: true, detalle: j.description || j.code});
+    const segs = Math.max(300, (d.tokenSecExpiration || 3600) - 120);
+    localStorage.setItem("emtToken", JSON.stringify({valor: d.accessToken, hasta: Date.now() + segs * 1000}));
+    return d.accessToken;
+  })().finally(() => { pidiendoToken = null; });
+  return pidiendoToken;
+}
+
+async function llegadasAPI(num, reintento) {
+  const hoy = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const r = await fetch(`${API}/v2/transport/busemtmad/stops/${num}/arrives/`, {
+    method: "POST",
+    headers: {"accessToken": await token(reintento), "Content-Type": "application/json"},
+    body: JSON.stringify({cultureInfo: "ES", Text_StopRequired_YN: "Y", Text_EstimationsRequired_YN: "Y", Text_IncidencesRequired_YN: "N", DateTime_Referenced_Incidencies_YYYYMMDD: hoy})
+  });
+  const j = await r.json();
+  if (!reintento && (j.code === "80" || j.code === "81" || r.status === 401)) return llegadasAPI(num, true);
+  if (j.code !== "00" && j.code !== "01") throw new Error(j.description || "Código " + j.code);
+  const d = (j.data && j.data[0]) || {};
+  const info = (d.StopInfo && d.StopInfo[0]) || {};
+  const buses = (d.Arrive || []).map(a => {
+    const s = +a.estimateArrive;
+    const m = s >= 999999 ? 99 : Math.floor(s / 60);
+    const t = s >= 999999 ? "+20 min" : s < 60 ? "Llegando" : m + " min";
+    const c = a.geometry && a.geometry.coordinates;
+    const ok = c && c[0] && c[1];
+    return {lin: String(a.line), dest: String(a.destination || ""), t, m, lat: ok ? c[1] : null, lng: ok ? c[0] : null, dist: a.DistanceBus};
+  }).sort((a, b) => a.m - b.m);
+  return {buses: conIds(buses), msg: buses.length ? "" : "Ahora mismo no hay buses previstos en esta parada.", nombre: info.stopName || ""};
 }
 
 async function cargar(p) {
   const e = estado[p.num];
   try {
-    const r = await fetch(EMT(p.num), {cache: "no-store"});
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const d = leer(await r.text());
-    e.datos = d.buses; e.error = d.msg; e.falloRed = false;
+    if (llave()) {
+      const d = await llegadasAPI(p.num);
+      e.datos = d.buses; e.error = d.msg; e.nombreEMT = d.nombre; e.fuente = "api";
+    } else {
+      const r = await fetch(EMT(p.num), {cache: "no-store"});
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const d = leer(await r.text());
+      e.datos = d.buses; e.error = d.msg; e.fuente = "panel";
+    }
   } catch (err) {
-    e.falloRed = true; e.error = "No se han podido leer los datos. Abajo tienes el panel original de la EMT.";
-    e.original = true;
+    if (err.llave) {
+      // Si la llave falla, al menos intentamos el panel público
+      try {
+        const r = await fetch(EMT(p.num), {cache: "no-store"});
+        const d = leer(await r.text());
+        if (d.buses.length) { e.datos = d.buses; e.error = ""; e.fuente = "panel"; pintar(p); return; }
+      } catch {}
+    }
+    e.datos = null;
+    e.error = err.llave
+      ? "La llave de la EMT no funciona (" + (err.detalle || "rechazada") + "). Vuelve a abrir el enlace con la llave correcta."
+      : "No se han podido leer los datos de la EMT. Prueba con «Actualizar» o con el panel original.";
   }
   pintar(p);
 }
@@ -128,17 +206,18 @@ function pintar(p) {
   const e = estado[p.num];
   const card = document.getElementById("p" + p.num);
   const buses = e.datos || [];
-  const favs = buses.filter(b => esFav(p, b.lin)).sort((a, b) => mins(a.t) - mins(b.t));
+  const favs = buses.filter(b => esFav(p, b.lin)).sort((a, b) => a.m - b.m);
   const resto = buses.filter(b => !esFav(p, b.lin));
   const sig = favs[0];
 
-  let html = `<div class="cab"><h2>${esc(p.nombre)}</h2><p>${esc(p.nota)} · parada ${p.num}</p></div>`;
+  const sub = e.nombreEMT && e.nombreEMT.toLowerCase() !== p.nombre.toLowerCase() ? ` (${esc(cap(e.nombreEMT))})` : "";
+  let html = `<div class="cab"><h2>${esc(p.nombre)}</h2><p>${esc(p.nota)} · parada ${p.num}${sub}</p></div>`;
 
   if (e.error && !buses.length) {
     html += `<div class="aviso">${esc(e.error)}</div>`;
   } else if (sig) {
     const otro = favs[1] ? ` El siguiente, en <b>${esc(favs[1].t)}</b>.` : "";
-    html += `<div class="prox"><div class="min">${mins(sig.t)}<small> min</small></div><div class="txt">Próximo <b>${esc(sig.lin)}</b> hacia ${esc(cap(sig.dest))}.${otro}</div></div>`;
+    html += `<div class="prox"><div class="min">${sig.m < 1 ? "Ya" : sig.m > 20 ? "+20" : sig.m}<small>${sig.m < 1 ? " llega" : " min"}</small></div><div class="txt">Próximo <b>${esc(sig.lin)}</b> hacia ${esc(cap(sig.dest))}.${otro}</div></div>`;
   } else {
     html += `<div class="aviso">Ahora mismo no viene ningún ${p.lineas.join(" ni ")} en los próximos minutos.</div>`;
   }
@@ -192,7 +271,7 @@ function pintar(p) {
   }
 }
 
-function cap(s) { return s.toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase()); }
+function cap(s) { return s.toLowerCase().replace(/(^|[\s(-])\S/g, c => c.toUpperCase()).replace(/ (De|Del|La|Las|Los|El|Y) /g, w => w.toLowerCase()); }
 
 let ultima = null;
 async function refrescar() {
@@ -206,7 +285,7 @@ async function refrescar() {
 function reloj() {
   if (!ultima) return;
   const s = Math.round((Date.now() - ultima) / 1000);
-  $("#act").textContent = "Actualizado " + (s < 5 ? "ahora mismo" : `hace ${s} s`) + " · " + ultima.toLocaleTimeString("es-ES", {hour: "2-digit", minute: "2-digit"});
+  $("#act").textContent = "Actualizado " + (s < 5 ? "ahora mismo" : `hace ${s} s`) + " · " + ultima.toLocaleTimeString("es-ES", {hour: "2-digit", minute: "2-digit"}) + (Object.values(estado).some(e => e.fuente === "api") ? " · API EMT" : " · panel público");
 }
 
 // Montaje
