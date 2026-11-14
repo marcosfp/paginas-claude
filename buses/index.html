@@ -14,19 +14,20 @@
 :root{--bg:#F7F5F0;--surface:#FFFFFF;--ink:#1C2A33;--muted:#566670;--line:#DDD8CD;--accent:#0F5C73;--terra:#B4532A;--soft:#EEF4F5;--badge:#1F5FA8;--badge-ink:#fff;--fav:#FFF3E3;--yo:#1A73E8}
 @media (prefers-color-scheme:dark){:root{--bg:#12191E;--surface:#1A2329;--ink:#E9EEF0;--muted:#A3B3BB;--line:#2F3C45;--accent:#6CC2D8;--terra:#E79A74;--soft:#1F2C33;--badge:#3E82CF;--fav:#2E2620;color-scheme:dark}}
 *{box-sizing:border-box}
-html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:400 17px/1.45 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+html,body{margin:0;height:100%}
+body{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;background:var(--bg);color:var(--ink);font:400 17px/1.45 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
 button{font:inherit;cursor:pointer}
-header{max-width:620px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-right,0px)) 10px max(14px,env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:10px}
-h1{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:27px;line-height:1.1;margin:0}
+header{flex:none;width:100%;max-width:620px;margin:0 auto;padding:max(10px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 8px max(14px,env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:24px;line-height:1.1;margin:0}
 #act{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
 .recargar{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--accent);font-weight:600;border-radius:999px;padding:6px 14px;font-size:15px}
 .recargar:active{transform:scale(.97)}
 
 /* Mapa */
-.mapa-caja{max-width:620px;margin:0 auto;padding:0 max(14px,env(safe-area-inset-right,0px)) 0 max(14px,env(safe-area-inset-left,0px));position:relative}
-#mapa{height:min(52vh,460px);min-height:300px;border-radius:14px;border:1px solid var(--line);background:var(--soft);z-index:0}
-.mapa-aviso{margin:8px 2px 0;color:var(--muted);font-size:14px;min-height:1em}
+.mapa-caja{flex:1 1 auto;min-height:0;position:relative}
+#mapa{position:absolute;inset:0;background:var(--soft);z-index:0}
+.mapa-aviso{position:absolute;z-index:500;top:10px;left:10px;right:10px;margin:0 auto;max-width:420px;background:rgba(255,255,255,.95);color:#1C2A33;font-size:14px;line-height:1.3;padding:8px 12px;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.25);text-align:center;pointer-events:none}
+.mapa-aviso:empty{display:none}
 .ctl-yo{background:#fff;border:0;width:40px;height:40px;border-radius:8px;box-shadow:0 1px 5px rgba(0,0,0,.3);display:grid;place-items:center;padding:0}
 .ctl-yo svg{width:22px;height:22px}
 .yo{width:18px;height:18px;border-radius:50%;background:var(--yo);border:3px solid #fff;box-shadow:0 0 0 2px rgba(26,115,232,.35),0 1px 4px rgba(0,0,0,.4)}
@@ -44,8 +45,14 @@ h1{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:27px;line-height
 .pop a{color:#0F5C73;font-weight:600}
 
 /* Favoritas */
-main{max-width:620px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-right,0px)) 40px max(14px,env(safe-area-inset-left,0px))}
-h2.sec{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:21px;margin:4px 0 10px;color:var(--ink)}
+/* Panel inferior "Nuestras paradas" */
+#panel{flex:none;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -4px 14px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.panel-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;max-width:620px;margin:0 auto;border:0;background:none;color:var(--accent);padding:12px 14px;font-family:Fraunces,Georgia,serif;font-weight:650;font-size:19px}
+.panel-btn .flecha{stroke:var(--accent);transform:rotate(180deg)}
+#panel.abierto .panel-btn .flecha{transform:none}
+#contenido{display:none;max-height:46vh;max-height:46dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+#panel.abierto #contenido{display:block}
+main{max-width:620px;margin:0 auto;padding:0 max(14px,env(safe-area-inset-right,0px)) 12px max(14px,env(safe-area-inset-left,0px))}
 .parada{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:0 0 10px;overflow:hidden}
 .resumen{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--ink);text-align:left;padding:13px 14px}
 .resumen h3{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:19px;line-height:1.2;margin:0;color:var(--accent)}
@@ -71,7 +78,7 @@ h2.sec{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:21px;margin:
 .pie button,.pie a{border:0;background:var(--soft);color:var(--accent);border-radius:8px;padding:7px 11px;font-size:14px;font-weight:600;text-decoration:none}
 .original{padding:0 14px 12px}
 .original iframe{display:block;width:100%;height:420px;border:0;border-radius:10px;background:#fff}
-.nota{color:var(--muted);font-size:13.5px;text-align:center;margin-top:20px}
+.nota{color:var(--muted);font-size:13px;text-align:center;margin:12px 0 4px}
 .cargando .prox{opacity:.5}
 </style>
 </head>
@@ -84,11 +91,15 @@ h2.sec{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:21px;margin:
   <div id="mapa" role="region" aria-label="Mapa de paradas"></div>
   <p class="mapa-aviso" id="mapaAviso"></p>
 </div>
-<main>
-  <h2 class="sec">Nuestras paradas</h2>
-  <div id="paradas"></div>
-  <p class="nota">Toca una parada del mapa para ver qué buses llegan, y toca un bus para ver por dónde va. Se actualiza cada 20 segundos.<br>Datos de la EMT Madrid · mapa © OpenStreetMap.</p>
-</main>
+<section id="panel">
+  <button class="panel-btn" id="panelBtn" aria-expanded="false" aria-controls="contenido">Nuestras paradas <svg class="flecha" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div id="contenido">
+    <main>
+      <div id="paradas"></div>
+      <p class="nota">Toca una parada del mapa para ver qué buses llegan, y toca un bus para ver por dónde va. Se actualiza cada 20 segundos.<br>Datos de la EMT Madrid · mapa © OpenStreetMap.</p>
+    </main>
+  </div>
+</section>
 <script src="leaflet.js"></script>
 <script>
 // ===== Configuración =====
@@ -312,7 +323,6 @@ function seleccionarBus(num, id, irAlMapa) {
   marca.bindPopup(() => popupBus(num, id), {offset: [0, -10]});
   busSel = {num, id, marca};
   const s = infoParada(num);
-  if (irAlMapa) document.querySelector(".mapa-caja").scrollIntoView({behavior: "smooth", block: "start"});
   mapa.closePopup();
   const pts = [[b.lat, b.lng]]; if (s) pts.push([s[2], s[3]]);
   mapa.fitBounds(pts, {padding: [60, 60], maxZoom: 17});
@@ -453,9 +463,17 @@ for (const p of PARADAS) {
     else if (fila) seleccionarBus(p.num, fila.dataset.bus, true);
     else if (acc && acc.dataset.acc === "todas") { v.todas = !v.todas; pintar(p); }
     else if (acc && acc.dataset.acc === "original") { v.original = !v.original; pintar(p); }
-    else if (acc && acc.dataset.acc === "mapa") { document.querySelector(".mapa-caja").scrollIntoView({behavior: "smooth"}); abrirParadaMapa(p.num, true); }
+    else if (acc && acc.dataset.acc === "mapa") abrirParadaMapa(p.num, true);
   });
 }
+
+// Panel "Nuestras paradas": oculto al principio; el mapa se encoge pero sigue a la vista
+$("#panelBtn").addEventListener("click", () => {
+  const abierto = $("#panel").classList.toggle("abierto");
+  $("#panelBtn").setAttribute("aria-expanded", abierto);
+  mapa.invalidateSize();
+  if (busSel) { const ll = busSel.marca.getLatLng(); if (!mapa.getBounds().contains(ll)) mapa.panTo(ll); }
+});
 
 // Arranque
 $("#btn").addEventListener("click", refrescar);
